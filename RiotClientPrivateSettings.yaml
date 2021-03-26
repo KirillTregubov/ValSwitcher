@@ -1,0 +1,46 @@
+private:
+    riot-login:
+        persist:
+            region: "NA"
+            session:
+                cookies:
+                -   domain: "auth.riotgames.com"
+                    hostOnly: true
+                    httpOnly: false
+                    name: "did"
+                    path: "/"
+                    persistent: true
+                    secureOnly: false
+                    value: "b554c3e0f8caf341859d0a3d10305bc2"
+                -   domain: "auth.riotgames.com"
+                    hostOnly: true
+                    httpOnly: true
+                    name: "ssid"
+                    path: "/"
+                    persistent: true
+                    secureOnly: true
+                    value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzYWx0IjoiNGU4NjJmZTgxMGUzMWUwNTBlZDBmMjMxYzI4ODg4ZDMiLCJzc2lkIjoiU3R6VjNRR2g4TEliZlNnTnhJalNlZy5qZHByZ1pFc2cxNGc2bFQ2OUExU1RnIiwic3ViIjoiYmU0NjM3Y2MtOGNjYi01ZGY4LWFhYjUtNzI1NzU2NzFkNDhlIiwibG9naW5Ub2tlbiI6IjUzZjA3YTA3LTQzZjktNGE5Ny1hM2U2LWU3ZjkxZWVhM2ZlMCIsInNlcmllc1Rva2VuIjoiNjEyZDM5NmMtZTMwNC00YzMxLTlhZjctZDc3NTJiZDU4MmMyIiwiaWF0IjoxNjE2NzA3NjcwfQ.H9g6aCfsuhqB-KMovtYha39Vd9MWOzmQyjU2WfRWXXw"
+                -   domain: "auth.riotgames.com"
+                    hostOnly: true
+                    httpOnly: true
+                    name: "clid"
+                    path: "/"
+                    persistent: true
+                    secureOnly: true
+                    value: "ue1"
+                -   domain: "auth.riotgames.com"
+                    hostOnly: true
+                    httpOnly: false
+                    name: "sub"
+                    path: "/"
+                    persistent: true
+                    secureOnly: true
+                    value: "be4637cc-8ccb-5df8-aab5-72575671d48e"
+                -   domain: "auth.riotgames.com"
+                    hostOnly: true
+                    httpOnly: false
+                    name: "ssalt"
+                    path: "/"
+                    persistent: true
+                    secureOnly: true
+                    value: "4e862fe810e31e050ed0f231c28888d3"

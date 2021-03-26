@@ -1,0 +1,13 @@
+appId: com.kirilltregubov.valswitcher
+productName: ValSwitcher
+copyright: Copyright © 2021 Kirill Tregubov
+buildVersion: 0.0.0.1
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null
