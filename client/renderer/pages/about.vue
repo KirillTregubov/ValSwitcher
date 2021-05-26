@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  layout: 'default',
   asyncData ({ req }) {
     return {
       name: process.static ? 'static' : (process.server ? 'server' : 'client'),
@@ -20,21 +21,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: black;
-  color: white;
-  font-family: "Lucida Console", Monaco, monospace;
-  padding-top: 100px;
-  text-align: center;
-}
-a {
-  color: white;
-}
-</style>

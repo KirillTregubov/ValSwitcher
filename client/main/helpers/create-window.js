@@ -15,7 +15,7 @@ export default function createWindow(windowName, options) {
   let state = {};
   let win;
 
-  const restore = () => store.get(key, defaultSize);
+  // const restore = () => store.get(key, defaultSize);
 
   const getCurrentPosition = () => {
     const position = win.getPosition();
@@ -64,7 +64,7 @@ export default function createWindow(windowName, options) {
     store.set(key, state);
   };
 
-  state = ensureVisibleOnSomeDisplay(restore());
+  state = ensureVisibleOnSomeDisplay(defaultSize);
 
   win = new BrowserWindow({
     ...options,
@@ -74,7 +74,7 @@ export default function createWindow(windowName, options) {
     },
   });
 
-  win.on('close', saveState);
+  // win.on('close', saveState);
 
   return win;
 };
