@@ -29,8 +29,6 @@ export default {
     return {
       // username: '',
       // password: '',
-      username: 'onlyspectra',
-      password: 'alimisfag123',
       askMFA: false,
       mfaCode: '',
       email: 'your email'

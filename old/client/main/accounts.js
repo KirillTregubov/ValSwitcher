@@ -50,7 +50,7 @@ class Accounts {
             await page.keyboard.type(password);
             await page.keyboard.press('Enter');
             try {
-              await page.waitForSelector('.mfafield', { visible: true });
+              await page.waitForSelector('.mfa-prompt', { visible: true });
               let element = await page.$$("[data-testid='panel-subtitle']");
               let text = await page.evaluate(element => element.textContent, element[0]);
               let match = text.match(/([a-zA-Z0-9._\-*]+@+[a-zA-Z0-9._\-*]+\.[a-zA-Z0-9_-])/)[0]
