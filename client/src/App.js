@@ -1,108 +1,27 @@
-import { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import Account from './components/Account';
+// import {} from 'react';
+// import AppDump from './pages/AppDump';
+import AccountList from './components/AccountList';
 import './App.css';
+import logo from './assets/images/ValorantLogo.svg';
 
 function App() {
-	const [isAuthenticated, setIsAuthenticated] = useState(null);
-	const [registerStatus, setRegisterStatus] = useState(null);
-	const [loading, setLoading] = useState(null);
-	const [accounts, setAccounts] = useState(null);
-	const password = 'Mypassword1';
-	// const password = 'Coolpassword';
-
-	useEffect(() => {
-		setLoading(true);
-		checkAuth();
-	}, []);
-
-	useEffect(() => {
-		if (isAuthenticated) {
-			if (!Array.isArray(accounts)) {
-				console.log('getting accounts')
-				setAccounts(window.app.emitSync('get-accounts'));
-				setLoading(false);
-			}
-			return;
-		}
-		if (loading) setLoading(false);
-
-	}, [loading, isAuthenticated, accounts]);
-
-	function checkAuth() {
-		setIsAuthenticated(window.app.emitSync('authenticate'));
-	}
-
-	function register() {
-		const response = window.app.emitSync('authenticate-register', {
-			password: password,
-			// newPassword: 'Coolpassword'
-		});
-		if (response) {
-			setRegisterStatus(true);
-			setIsAuthenticated(true);
-		}
-		else setRegisterStatus(false);
-	}
-
-	function login() {
-		setIsAuthenticated(window.app.emitSync('authenticate-login', {
-			password: password
-		}));
-	}
-
-	function addAccount() {
-		window.app.emit('add-account', {
-			username: 'leakedusername1',
-			password: 'Leakedpassword!'
-		});
-		setAccounts(window.app.emitSync('get-accounts'));
-	}
-
 	return (
-		<div className="App">
-			<header className="App-header">
-				<button onClick={register}>
-					Register
-				</button>
-				<button onClick={login}>
-					Login
-				</button>
-
-				<div className='text-lg'>
-					{registerStatus
-						? <div className="text-green-500">Success</div>
-						: registerStatus == null
-							? <div className="">None</div>
-							: <div className="text-red-500">Fail</div>
-					}
-				</div>
-
-				<div className='text-lg'>
-					{isAuthenticated
-						? <div className="text-green-500">Authenticated!!</div>
-						: <div className="text-red-500">Not authed :(</div>
-					}
-				</div>
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-					Edit <code>src/App.js</code> and save to reload.
-				</p>
-				<button onClick={addAccount}>
-					Add Account
-				</button>
-
-				{loading
-					? <div>Loading...</div>
-					: accounts && Array.isArray(accounts)
-						? accounts.map(function (account, id) {
-							return <Account key={id} username={account.username} />
-						})
-						: <div>Logged out</div>
-				}
-
-			</header>
-		</div>
+		<div className="App text-white pt-20">
+			<div className="fixed top-0 left-0 w-full z-10 flex items-center justify-center space-x-2 py-6 bg-valblack-dark">
+				<img className="block w-44" src={logo} alt="Valorant" />
+				<h1 className="text-2xl pt-title font-valorant text-valbeige leading-none">Switcher</h1>
+			</div>
+			<AccountList />
+			
+			{/* <div className="inline-block align-bottom bg-valblack-light rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+				Hello Everyone
+			</div> */}
+			
+			{/* onClick={testCookies()} */}
+			{/* <button className="inline-block bg-valbeige text-valblack font-bold p-2 rounded">Test Cookies</button>
+			<button className="inline-block bg-valbeige text-valblack font-bold p-2 rounded">Test Cookies</button> */}
+			{/* <AppDump /> */}
+		</div >
 	);
 }
 

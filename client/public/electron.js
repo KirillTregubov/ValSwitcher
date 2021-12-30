@@ -37,7 +37,7 @@ const Account = require('./account.js');
 			width: width,
 			height: height,
 			// resizable: false,
-			backgroundColor: '#0f1822',
+			backgroundColor: '#060A0E',
 			webPreferences: {
 				contextIsolation: true,
 				enableRemoteModule: false,
