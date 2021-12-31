@@ -40,6 +40,7 @@ function App() {
 	}
 
 	const logout = (e) => {
+		// TODO: implement logout
 		setIsAuthenticated(false);
 	}
 
