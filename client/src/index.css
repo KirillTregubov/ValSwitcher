@@ -6,3 +6,28 @@
 	font-family: 'Valorant';
 	src: local('Valorant'), url(./assets/fonts/ValorantFont.ttf) format('truetype');
 }
+
+div {
+	scrollbar-width: thin;
+}
+
+div::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+div::-webkit-scrollbar-thumb {
+	@apply rounded;
+}
+
+div::-webkit-scrollbar-track {
+	@apply rounded bg-zinc-900;
+}
+
+div::-webkit-scrollbar-thumb {
+	@apply bg-zinc-700;
+}
+
+div::-webkit-scrollbar-thumb:hover {
+	@apply bg-zinc-600;
+}

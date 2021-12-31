@@ -19,7 +19,7 @@ const Account = require('./account.js');
 		defaults: {
 			token: null,
 			// 800x600 is the default window size
-			windowDimensions: { width: 800, height: 600 },
+			windowDimensions: { width: 960, height: 540 },
 			userData: defaultUserData
 		}
 	});
@@ -229,7 +229,7 @@ const Account = require('./account.js');
 
 		// Get Accounts
 		const accounts = store.get('userData', 'accounts');
-		if (!Array.isArray(accounts)) {	
+		if (!Array.isArray(accounts)) {
 			console.log('Accounts is not an array!');
 			return;
 		}
@@ -274,12 +274,12 @@ const Account = require('./account.js');
 
 		// Get Accounts
 		const accounts = store.get('userData', 'accounts');
-		if (!Array.isArray(accounts)) {	
+		if (!Array.isArray(accounts)) {
 			console.log('Accounts is not an array!');
 			return;
 		}
 		const currentAccount = accounts.find(account => account.username === username);
-		
+
 		await Account.submitMfa.call(currentAccount, event, arg.mfaCode);
 	});
 })();
