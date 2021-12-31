@@ -19,6 +19,8 @@ function App() {
 		// setIsAuthenticated(false);
 		// setIsRegistered(true);
 		// setShowLogin(true);
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const checkAuth = () => {
@@ -83,7 +85,7 @@ function App() {
 				{/*  */}
 				{/* <Main /> */}
 			</div>
-			<div className="fixed bottom-0 left-0 w-full flex justify-center items-center h-10 text-xs text-zinc-500">
+			<div className="fixed bottom-0 left-0 w-full flex justify-center items-center h-10 text-xs text-zinc-600">
 				<p>Riot Games, VALORANT, and any associated logos are trademarks, service marks, and/or registered trademarks of Riot Games, Inc.</p>
 			</div>
 			{/* onClick={testCookies()} */}
