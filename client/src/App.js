@@ -6,6 +6,7 @@ import Main from './pages/Main';
 import Transition from './components/Transition';
 import './App.css';
 import logo from './assets/images/ValorantLogo.svg';
+import { LogoutIcon } from '@heroicons/react/outline';
 
 function App() {
 	const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -16,10 +17,6 @@ function App() {
 
 	useEffect(() => {
 		checkAuth();
-		// setIsAuthenticated(false);
-		// setIsRegistered(true);
-		// setShowLogin(true);
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -29,19 +26,21 @@ function App() {
 
 		if (response === false) {
 			checkAuthRegister();
-			setShowLogin(true);
 		}
 	}
 
 	const checkAuthRegister = () => {
-		console.log('checking register');
-		// TODO: Make method that checks if need to register
-		// const response = window.app.emitSync('authenticate-can-register');
+		const response = window.app.emitSync('authenticate-can-register');
+		if (response) {
+			setShowRegister(true);
+		} else {
+			setShowLogin(true);
+		}
 	}
 
 	const logout = (e) => {
-		// TODO: implement logout
-		setIsAuthenticated(false);
+		const response = window.app.emitSync('authenticate-logout');
+		if (response) setIsAuthenticated(false);
 	}
 
 	const resetData = async (e) => {
@@ -52,9 +51,24 @@ function App() {
 		setTimeout(() => { setShowRegister(true); }, 800);
 	}
 
+	const updateLogin = (arg) => {
+		if (arg !== true) return;
+
+		setShowLogin(false);
+		setIsAuthenticated(arg);
+	}
+
+	const register = (arg) => {
+		if (arg !== true) return;
+
+		setIsAuthenticated(arg);
+		setShowRegister(false);
+		setShowLogin(true);
+	}
+
 	return (
 		<div className="App text-white h-screen">
-			<div className="fixed top-0 left-0 z-10 flex justify-center items-center w-full h-20 px-12 bg-valblack-dark">
+			<div className="fixed top-0 left-0 z-10 flex justify-center items-center w-full h-20 px-12 bg-valblack-dark select-none">
 				<div className="flex-1"></div>
 				<div className="flex items-center space-x-2">
 					<img className="block w-44" src={logo} alt="Valorant" />
@@ -62,7 +76,9 @@ function App() {
 				</div>
 				<div className="flex-1 flex justify-end">
 					{isAuthenticated === true
-						? <button className="px-3 py-2 text-sm font-medium rounded-md border text-zinc-200 bg-zinc-800 border-zinc-900 hover:text-zinc-50 hover:bg-zinc-700 hover:border-zinc-800" onClick={logout}>Logout</button>
+						? (<button className="flex items-center px-3 py-2 text-sm font-medium rounded-md border-2 shadow text-zinc-200 bg-zinc-800 border-zinc-700 hover:text-zinc-50 hover:bg-zinc-700 hover:border-zinc-600 focus-visible:text-zinc-50 focus-visible:bg-zinc-700 focus-visible:border-zinc-600 focus:outline-none focus:ring ring-zinc-600" onClick={logout}>
+							<LogoutIcon className="h-4 mr-1" /> Logout
+						</button>)
 						: <div></div>
 					}
 				</div>
@@ -70,21 +86,18 @@ function App() {
 			<div className="h-full pt-20 pb-10 flex flex-col justify-center items-center">
 				{isAuthenticated == null
 					? <div>Loading...</div>
-					: isAuthenticated
-						? <Main />
-						: <>
-							{/* isRegistered ? */}
-							<Transition show={showLogin}>
-								<AuthLogin setLogin={setIsAuthenticated} resetData={resetData} />
-							</Transition>
-							<Transition show={showRegister}>
-								<AuthRegister />
-							</Transition></>
-					// : isRegistered
-					// 	? 
-				}
-				{/*  */}
-				{/* <Main /> */}
+					: <>
+						<Transition show={isAuthenticated}>
+							<Main />
+						</Transition>
+						<Transition show={showLogin}>
+							<AuthLogin setLogin={updateLogin} resetData={resetData} />
+						</Transition>
+						<Transition show={showRegister}>
+							<AuthRegister setLogin={register} />
+						</Transition>
+					</>}
+
 			</div>
 			<div className="fixed bottom-0 left-0 w-full flex justify-center items-center h-10 text-xs text-zinc-600">
 				<p>Riot Games, VALORANT, and any associated logos are trademarks, service marks, and/or registered trademarks of Riot Games, Inc.</p>

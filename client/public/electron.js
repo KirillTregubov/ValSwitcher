@@ -14,14 +14,16 @@ const Account = require('./account.js');
 	let window;
 	let token = null;
 
+	const defaults = {
+		token: null,
+		// 800x600 is the default window size
+		windowDimensions: { width: 1000, height: 600 },
+		userData: defaultUserData
+	}
+
 	const store = new Store({
 		configName: 'user-data',
-		defaults: {
-			token: null,
-			// 800x600 is the default window size
-			windowDimensions: { width: 960, height: 540 },
-			userData: defaultUserData
-		}
+		defaults: defaults
 	});
 
 	// const pw = store.get('token');
@@ -31,7 +33,14 @@ const Account = require('./account.js');
 	// console.log(decryptedData);
 
 	async function createWindow() {
-		let { width, height } = store.get('windowDimensions');
+		const windowDimensions = store.get('windowDimensions');
+
+		let width, height;
+		if (windowDimensions == null) {
+			({ width, height } = defaults.windowDimensions)
+		} else {
+			({ width, height } = windowDimensions);
+		}
 
 		window = new BrowserWindow({
 			width: width,
@@ -169,6 +178,11 @@ const Account = require('./account.js');
 		event.returnValue = !(token == null);
 	})
 
+	ipcMain.on('authenticate-can-register', async (event, arg) => {
+		const storedToken = store.get('token');
+		event.returnValue = storedToken == null;
+	})
+
 	ipcMain.on('authenticate-register', async (event, arg) => {
 		const storedToken = store.get('token');
 		let inputToken = arg.password;
@@ -216,6 +230,17 @@ const Account = require('./account.js');
 		}
 
 		event.returnValue = isTokenValid;
+	})
+
+	ipcMain.on('authenticate-logout', async (event) => {
+		const encryptedData = store.get('token');
+		if (!encryptedData) {
+			event.returnValue = false;
+			return;
+		}
+
+		token = null;
+		event.returnValue = true;
 	})
 
 	ipcMain.on('download-profile', async (event, arg) => {
