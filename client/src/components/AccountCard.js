@@ -141,4 +141,4 @@ export default function AccountCard({ username, alias, agent }) {
 			)} */}
 		</div>
 	}
-};
+}

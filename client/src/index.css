@@ -7,17 +7,13 @@
 	src: local('Valorant'), url(./assets/fonts/ValorantFont.ttf) format('truetype');
 }
 
-div {
-	scrollbar-width: thin;
-}
-
 div::-webkit-scrollbar {
 	width: 10px;
 	height: 10px;
 }
 
 div::-webkit-scrollbar-thumb {
-	@apply rounded;
+	@apply rounded-full;
 }
 
 div::-webkit-scrollbar-track {

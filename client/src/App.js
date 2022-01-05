@@ -1,69 +1,26 @@
-// import AppDump from './pages/AppDump';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, useLocation } from "react-router-dom";
 import AuthLogin from './pages/AuthLogin';
 import AuthRegister from './pages/AuthRegister';
 import Main from './pages/Main';
-import Transition from './components/Transition';
 import './App.css';
 import logo from './assets/images/ValorantLogo.svg';
 import { LogoutIcon } from '@heroicons/react/outline';
+// import AppDump from './pages/AppDump';
 
-function App() {
+export default function App() {
+	let location = useLocation();
 	const [isAuthenticated, setIsAuthenticated] = useState(null);
-	// const [isRegistered, setIsRegistered] = useState(null);
-
-	const [showLogin, setShowLogin] = useState(false);
-	const [showRegister, setShowRegister] = useState(false);
 
 	useEffect(() => {
-		checkAuth();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	const checkAuth = () => {
 		const response = window.app.emitSync('authenticate');
 		setIsAuthenticated(response);
+	}, [location]);
 
-		if (response === false) {
-			checkAuthRegister();
-		}
-	}
-
-	const checkAuthRegister = () => {
-		const response = window.app.emitSync('authenticate-can-register');
-		if (response) {
-			setShowRegister(true);
-		} else {
-			setShowLogin(true);
-		}
-	}
-
+	// TODO: Fix header logout
 	const logout = (e) => {
 		const response = window.app.emitSync('authenticate-logout');
 		if (response) setIsAuthenticated(false);
-	}
-
-	const resetData = async (e) => {
-		// TODO: Trigger confirmation
-		// TODO: Make method that resets data
-
-		setShowLogin(false);
-		setTimeout(() => { setShowRegister(true); }, 800);
-	}
-
-	const updateLogin = (arg) => {
-		if (arg !== true) return;
-
-		setShowLogin(false);
-		setIsAuthenticated(arg);
-	}
-
-	const register = (arg) => {
-		if (arg !== true) return;
-
-		setIsAuthenticated(arg);
-		setShowRegister(false);
-		setShowLogin(true);
 	}
 
 	return (
@@ -84,30 +41,18 @@ function App() {
 				</div>
 			</div>
 			<div className="h-full pt-20 pb-10 flex flex-col justify-center items-center">
-				{isAuthenticated == null
-					? <div>Loading...</div>
-					: <>
-						<Transition show={isAuthenticated}>
-							<Main />
-						</Transition>
-						<Transition show={showLogin}>
-							<AuthLogin setLogin={updateLogin} resetData={resetData} />
-						</Transition>
-						<Transition show={showRegister}>
-							<AuthRegister setLogin={register} />
-						</Transition>
-					</>}
-
+					<Routes>
+						<Route path="/" element={<Main />} />
+						<Route path="/register" element={<AuthRegister />} />
+						<Route path="/login" element={<AuthLogin />} />
+					</Routes>
 			</div>
 			<div className="fixed bottom-0 left-0 w-full flex justify-center items-center h-10 text-xs text-zinc-600">
 				<p>Riot Games, VALORANT, and any associated logos are trademarks, service marks, and/or registered trademarks of Riot Games, Inc.</p>
 			</div>
-			{/* onClick={testCookies()} */}
 			{/* <button className="inline-block bg-valbeige text-valblack font-bold p-2 rounded">Test Cookies</button>
 			<button className="inline-block bg-valbeige text-valblack font-bold p-2 rounded">Test Cookies</button> */}
 			{/* <AppDump /> */}
 		</div>
 	);
 }
-
-export default App;
