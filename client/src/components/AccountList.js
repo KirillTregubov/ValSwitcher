@@ -20,7 +20,6 @@ export default function AccountList() {
 		</div>
 		{fakeAccounts.length > 2 && <div className="flex pt-4 items-center justify-end transition-all text-zinc-800 group-hover:text-zinc-300">
 			<p>
-				{/* <span className="font-semibold">Tip: </span> */}
 				Hold <span className="p-1 px-2 bg-zinc-900 border-b-2 border-zinc-900 group-hover:bg-zinc-800 group-hover:border-zinc-600 rounded-md">shift</span> to use
 			</p>
 			<svg className="ml-1 fill-current" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

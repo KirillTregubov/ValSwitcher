@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import AuthLogin from './pages/AuthLogin';
 import AuthRegister from './pages/AuthRegister';
 import Main from './pages/Main';
-import Transition from './components/Transition';
-
 import './App.css';
 // import AppDump from './pages/AppDump';
 
 export default function App() {
 	let location = useLocation();
-	let navigate = useNavigate();
 	const [isAuthenticated, setIsAuthenticated] = useState(null);
 
 	useEffect(() => {
@@ -19,8 +16,6 @@ export default function App() {
 			setIsAuthenticated(response);
 		}
 	}, [location, isAuthenticated]);
-
-	
 
 	return (
 		<div className="App text-white h-screen">
