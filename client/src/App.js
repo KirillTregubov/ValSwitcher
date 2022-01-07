@@ -3,6 +3,7 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import AuthLogin from './pages/AuthLogin';
 import AuthRegister from './pages/AuthRegister';
 import Main from './pages/Main';
+import NewAccount from './pages/NewAccount';
 import Navbar from './components/Navbar';
 import './App.css';
 // import AppDump from './pages/AppDump';
@@ -10,50 +11,32 @@ import './App.css';
 import { Dialog } from '@headlessui/react'
 function MyDialog() {
 	let navigate = useNavigate();
-  let [isOpen, setIsOpen] = useState(true)
+	let [isOpen, setIsOpen] = useState(true)
 
-  function close() {
-	setIsOpen(false);
+	function close() {
+		setIsOpen(false);
 
-	navigate('/');
-  }
+		navigate('/');
+	}
 
-  return (
-    <Dialog initialFocus={null} open={isOpen} onClose={close} className="fixed z-10 inset-0 overflow-y-auto text-white">
-      <Dialog.Overlay />
+	return (
+		<Dialog initialFocus={null} open={isOpen} onClose={close} className="fixed z-10 inset-0 overflow-y-auto text-white">
+			<Dialog.Overlay className="fixed inset-0" />
 
-      <Dialog.Title>Deactivate account</Dialog.Title>
-      <Dialog.Description>	
-        This will permanently deactivate your account
-      </Dialog.Description>
+			<Dialog.Title>Deactivate account</Dialog.Title>
+			<Dialog.Description>
+				This will permanently deactivate your account
+			</Dialog.Description>
 
-      <p>
-        Are you sure you want to deactivate your account? All of your data will
-        be permanently removed. This action cannot be undone.
-      </p>
+			<p>
+				Are you sure you want to deactivate your account? All of your data will
+				be permanently removed. This action cannot be undone.
+			</p>
 
-      <button onClick={close}>Deactivate</button>
-      <button onClick={close}>Cancel</button>
-    </Dialog>
-  )
-}
-
-function NewAccount() {
-	let navigate = useNavigate();
-//   let [isOpen, setIsOpen] = useState(true)
-
-  function close() {
-	navigate('/');
-	// setIsOpen(false)
-  }
-
-  return (
-    <div className="fixed z-10 inset-0 overflow-y-auto text-white bg-valred">
-		Dialog
-
-		<button onClick={close}>Close</button>
-	</div>
-  )
+			<button onClick={close}>Deactivate</button>
+			<button onClick={close}>Cancel</button>
+		</Dialog>
+	)
 }
 
 export default function App() {

@@ -7,6 +7,10 @@
 	src: local('Valorant'), url(./assets/fonts/ValorantFont.ttf) format('truetype');
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
 div::-webkit-scrollbar {
 	width: 10px;
 	height: 10px;

@@ -11,10 +11,10 @@ const fakeAccounts = [
 	// { username: 'joeysaccount', alias: 'friend\'s account', agent: 'Reyna' }
 ]
 
-export default function AccountList() {
+export default function AccountList({ className }) {
 	// let location = useLocation();
-
-	return <div className="group relative w-full h-full py-6 px-12">
+	
+	return <div className={`group relative w-full h-full py-6 px-12 ${className}`}>
 		<div className={`flex gap-4 overflow-x-auto overflow-y-auto p-1 ${fakeAccounts.length > 2 ? 'pb-3' : ''}`}>
 			{fakeAccounts.map((account, index) =>
 				<AccountCard username={account.username} alias={account.alias} agent={account.agent} key={index} />

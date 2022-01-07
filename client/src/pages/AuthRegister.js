@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { ExclamationIcon } from '@heroicons/react/solid';
 import Input from '../components/Input';
-import Transition from '../components/Transition';
+import { Transition } from '../components/Transition';
 
 export default function AuthRegister() {
 	let navigate = useNavigate();
