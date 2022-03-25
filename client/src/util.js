@@ -1,7 +1,13 @@
 function navigateWithDelay(destination, navigate) {
 	setTimeout(() => {
-		navigate(`/${destination}`);
+		navigate(destination);
 	}, 600);
 }
 
-export { navigateWithDelay };
+function navigateWithSmallDelay(destination, navigate) {
+	setTimeout(() => {
+		navigate(destination);
+	}, 300);
+}
+
+export { navigateWithDelay, navigateWithSmallDelay };

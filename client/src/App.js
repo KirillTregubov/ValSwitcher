@@ -1,43 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import AuthLogin from './pages/AuthLogin';
 import AuthRegister from './pages/AuthRegister';
 import Main from './pages/Main';
+import Account from './pages/Account';
 import NewAccount from './pages/NewAccount';
 import Navbar from './components/Navbar';
 import './App.css';
 // import AppDump from './pages/AppDump';
-
-import { Dialog } from '@headlessui/react'
-function MyDialog() {
-	let navigate = useNavigate();
-	let [isOpen, setIsOpen] = useState(true)
-
-	function close() {
-		setIsOpen(false);
-
-		navigate('/');
-	}
-
-	return (
-		<Dialog initialFocus={null} open={isOpen} onClose={close} className="fixed z-10 inset-0 overflow-y-auto text-white">
-			<Dialog.Overlay className="fixed inset-0" />
-
-			<Dialog.Title>Deactivate account</Dialog.Title>
-			<Dialog.Description>
-				This will permanently deactivate your account
-			</Dialog.Description>
-
-			<p>
-				Are you sure you want to deactivate your account? All of your data will
-				be permanently removed. This action cannot be undone.
-			</p>
-
-			<button onClick={close}>Deactivate</button>
-			<button onClick={close}>Cancel</button>
-		</Dialog>
-	)
-}
 
 export default function App() {
 	let location = useLocation();
@@ -63,8 +33,8 @@ export default function App() {
 				</Routes>
 				{location.state?.backgroundLocation && (
 					<Routes>
-						<Route path="/new-account" element={<MyDialog />} />
-						<Route path="/:accountid" element={<NewAccount />} />
+						<Route path="/new-account" element={<NewAccount />} />
+						<Route path="/:accountid" element={<Account />} />
 					</Routes>
 				)}
 			</div>
