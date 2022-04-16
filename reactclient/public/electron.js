@@ -67,9 +67,10 @@ const Account = require('./account.js');
 		});
 
 		await window.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
-		if (isDev) {
-			window.webContents.openDevTools();
-		}
+		window.webContents.openDevTools();
+		// if (isDev) {
+		// 	window.webContents.openDevTools();
+		// }
 
 		window.on("closed", () => {
 			window = null;

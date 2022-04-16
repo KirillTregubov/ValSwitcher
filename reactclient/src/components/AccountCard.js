@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 // import { XCircleIcon } from '@heroicons/react/solid';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { navigateWithDelay } from '../util';
 import ValorantAgent from './ValorantAgent';
-
 
 // Currently supported agents:
 // const agents = ['Astra', 'Breach', 'Brimstone', 'Chamber', 'Cypher', 'Jett', 'KAYO', 'Killjoy', 'Omen', 'Phoenix', 'Raze', 'Reyna', 'Sage', 'Skye', 'Sova', 'Viper', 'Yoru' ];
 
 export default function AccountCard({ username, alias, agent }) {
-	let location = useLocation();
+	let navigate = useNavigate();
+
+	// let location = useLocation();
 	const [loading, setLoading] = useState(true);
 	const inputContainer = useRef(null);
 
@@ -109,6 +111,10 @@ export default function AccountCard({ username, alias, agent }) {
 		inputs.children[0].focus();
 	}
 
+	const goTo = () => {
+		navigateWithDelay(username ? `/u/${username}` : `/new-account/`, navigate);
+	}
+
 	useEffect(() => {
 		if (loading) {
 			setLoading(false)
@@ -120,8 +126,7 @@ export default function AccountCard({ username, alias, agent }) {
 	if (loading) {
 		return <div>Loading...</div>
 	} else {
-		// 
-		return <Link to={`/${username}`} state={{ backgroundLocation: location }} className="flex flex-grow flex-shrink-0 w-[30%] py-6 px-8 select-none rounded-3xl bg-zinc-900 shadow-zinc-700/20 shadow-md border border-zinc-800 outline-none focus:ring-2 ring-valred" onFocus={handleFocus}>
+		return <button onClick={() => goTo()} className="flex flex-grow flex-shrink-0 w-[30%] py-6 px-8 select-none rounded-3xl bg-zinc-900 shadow-zinc-700/20 shadow-md border border-zinc-800 outline-none focus:ring-2 ring-valred" onFocus={handleFocus}>
 			<div className="">
 				<h2 className="text-md text-zinc-400 font-semibold">Username</h2>
 				<h1 className="select-text">{username}</h1>
@@ -147,6 +152,6 @@ export default function AccountCard({ username, alias, agent }) {
 			{/* { agents.map((agent, index) => 
 				<img key={index} className="-mr-16 w-36" src={`./images/${agent}.png`} alt="Portrait of sage" />
 			)} */}
-		</Link>
+		</button>
 	}
 }

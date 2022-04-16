@@ -1,6 +1,7 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
+	mode: 'jit',
 	content: [
 		"./src/**/*.{js,jsx,ts,tsx}",
 	],
@@ -19,9 +20,6 @@ module.exports = {
 				},
 				valgrey: '#8b978f',
 				valbeige: '#ece8e1'
-			},
-			spacing: {
-				'title': '4px'
 			},
 			fontFamily: {
 				'sans': 'Inter var',

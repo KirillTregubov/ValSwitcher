@@ -55,7 +55,7 @@ export default function AuthRegister() {
 		} else {
 			// TODO: ERROR
 			alert('We ran into an error...');
-			setWarning('');
+			setWarning(null);
 			setRepeatWarning('An error occurred.');
 		}
 	}
@@ -73,7 +73,7 @@ export default function AuthRegister() {
 			</div>
 			<div className="flex gap-2 mt-1">
 				<button className="w-full px-3 py-2 text-sm font-medium rounded-md border transition-all text-zinc-900 bg-zinc-100 border-zinc-300 hover:bg-zinc-300 hover:border-zinc-400 hover:scale-105 focus-visible:scale-105 outline-none focus-visible:ring-2 focus-visible:ring-zinc-500" onClick={submitPassword}>Set Password</button>
-				<button className="w-full px-3 py-2 text-sm font-medium rounded-md border transition-all text-zinc-900 bg-zinc-100 border-zinc-300 hover:bg-zinc-300 hover:border-zinc-400 hover:scale-105 focus-visible:scale-105 outline-none focus-visible:ring-2 focus-visible:ring-zinc-500" onClick={() => navigate('/')}>Set Password</button>
+				<button className="w-full px-3 py-2 text-sm font-medium rounded-md border transition-all text-zinc-900 bg-zinc-100 border-zinc-300 hover:bg-zinc-300 hover:border-zinc-400 hover:scale-105 focus-visible:scale-105 outline-none focus-visible:ring-2 focus-visible:ring-zinc-500" onClick={() => navigate('/')}>Go to /</button>
 			</div>
 		</div>
 	</Transition>

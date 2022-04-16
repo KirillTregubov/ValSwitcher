@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import ReactPlaceholder from "react-placeholder";
+import React from 'react';
+// import ReactPlaceholder from "react-placeholder";
 
 // Currently supported agents:
-const agents = ['Astra', 'Breach', 'Brimstone', 'Chamber', 'Cypher', 'Jett', 'KAYO', 'Killjoy', 'Omen', 'Phoenix', 'Raze', 'Reyna', 'Sage', 'Skye', 'Sova', 'Viper', 'Yoru'];
+const agents = ['Astra', 'Breach', 'Brimstone', 'Chamber', 'Cypher', 'Jett', 'KAYO', 'Killjoy', 'Neon', 'Omen', 'Phoenix', 'Raze', 'Reyna', 'Sage', 'Skye', 'Sova', 'Viper', 'Yoru'];
 
 function getImage(name, className, onLoad) {
 	if (agents.includes(name))
-		return <img className={`w-full ${className}`} src={`./images/${name}.png`} alt="Valorant agent" draggable="false" onLoad={onLoad} />
+		return <img className={`w-full ${className}`} src={`./images/${name}.png`} alt={`Artwork of ${name}`} draggable="false" onLoad={onLoad} />
 	else
-		return <img className="w-36 brightness-0" src={`./images/Jett.png`} alt="Valorant agent" draggable="false" onLoad={onLoad} />
+		return <img className="w-36 brightness-0" src={`./images/Jett.png`} alt="Artwork of Jett" draggable="false" onLoad={onLoad} />
 }
 
 export default function ValorantAgent({ name, className }) {

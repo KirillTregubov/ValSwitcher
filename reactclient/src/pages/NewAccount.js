@@ -8,7 +8,6 @@ export default function Account() {
 
 	function close() {
 		setIsOpen(false);
-
 		navigate('/');
 	}
 
