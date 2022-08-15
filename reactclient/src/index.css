@@ -3,31 +3,42 @@
 @tailwind utilities;
 
 @font-face {
-	font-family: 'Valorant';
-	src: local('Valorant'), url(./assets/fonts/ValorantFont.ttf) format('truetype');
+  font-family: 'Valorant';
+  src: local('Valorant'), url(./assets/fonts/ValorantFont.ttf) format('truetype');
 }
 
 html {
-	scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 div::-webkit-scrollbar {
-	width: 10px;
-	height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 div::-webkit-scrollbar-thumb {
-	@apply rounded-full;
+  @apply rounded-full;
 }
 
 div::-webkit-scrollbar-track {
-	@apply rounded bg-zinc-900;
+  @apply rounded bg-zinc-900;
 }
 
 div::-webkit-scrollbar-thumb {
-	@apply bg-zinc-700;
+  @apply bg-zinc-700 transition duration-700;
 }
 
 div::-webkit-scrollbar-thumb:hover {
-	@apply bg-zinc-600;
+  @apply bg-zinc-600;
+}
+
+.masked-scroll ::-webkit-scrollbar {
+  width: 24px;
+}
+
+.masked-scroll::after {
+  @apply absolute left-0 top-0 pointer-events-none w-full;
+  content: '';
+  height: 85%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 91%, rgba(6, 10, 14, 100%) 94%);
 }

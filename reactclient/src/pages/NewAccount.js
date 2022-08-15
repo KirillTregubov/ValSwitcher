@@ -1,32 +1,18 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { Dialog } from '@headlessui/react';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { XIcon } from '@heroicons/react/outline'
 
 export default function Account() {
-	let navigate = useNavigate();
-	let [isOpen, setIsOpen] = useState(true)
-
-	function close() {
-		setIsOpen(false);
-		navigate('/');
-	}
-
-	return (
-		<Dialog initialFocus={null} open={isOpen} onClose={close} className="fixed z-10 inset-0 overflow-y-auto text-white">
-			<Dialog.Overlay className="fixed inset-0" />
-
-			<Dialog.Title>Deactivate account</Dialog.Title>
-			<Dialog.Description>
-				This will permanently deactivate your account
-			</Dialog.Description>
-
-			<p>
-				Are you sure you want to deactivate your account? All of your data will
-				be permanently removed. This action cannot be undone.
-			</p>
-
-			<button onClick={close}>Deactivate</button>
-			<button onClick={close}>Cancel</button>
-		</Dialog>
-	)
+  return (
+    <>
+      <div>New Account</div>
+      <Link
+        className="mb-2 inline-flex items-center rounded-full pr-2 font-medium text-zinc-500 outline-none ring-zinc-600 focus-visible:ring-2"
+        to={'/home'}
+      >
+        <XIcon className="h-4 w-4" />
+        <span>Cancel</span>
+      </Link>
+    </>
+  )
 }

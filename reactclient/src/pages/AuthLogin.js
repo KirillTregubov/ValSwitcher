@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { ExclamationIcon } from '@heroicons/react/solid';
 import Input from '../components/Input';
-import { Transition } from '../components/Transition';
-import { navigateWithDelay } from '../util';
+// import { Transition } from '../components/Transition';
+// import { navigateWithDelay } from '../util';
 
 export default function AuthLogin() {
 	let navigate = useNavigate();
-	const [show, setShow] = useState(true);
+	// const [show, setShow] = useState(true);
 	const [password, setPassword] = useState('');
 	const [isValid, setIsValid] = useState(false);
 	const [warning, setWarning] = useState(null);
@@ -41,8 +41,7 @@ export default function AuthLogin() {
 		});
 
 		if (response) {
-			setShow(false);
-			navigateWithDelay('/', navigate);
+			navigate('/');
 		} else if (response === false) {
 			setWarning('Incorrect password.');
 		}
@@ -55,12 +54,10 @@ export default function AuthLogin() {
 		// setShowLogin(false);
 		// setTimeout(() => { setShowRegister(true); }, 800);
 		console.log('reset data');
-		setShow(false);
-		navigateWithDelay('/register', navigate);
+		navigate('/register');
 	}
 
-	return <Transition show={show}>
-		<div className="w-full max-w-md py-6 px-12 text-base">
+	return <div className="w-full max-w-md py-6 px-12 text-base">
 			<h2 className="mb-2 text-lg font-medium">Welcome Back!</h2>
 			<p className="text-base">Please unlock your account data to continue.</p>
 			<Input className="my-2" value={password} onChange={handleInput} onKeyDown={handleEnter} placeholder="Master Password" type="password" autoComplete="password" minLength="1" />
@@ -70,5 +67,4 @@ export default function AuthLogin() {
 				<button className="w-full px-3 py-2 text-sm font-medium rounded-md border transition-all text-zinc-900 bg-zinc-100 border-zinc-300 hover:bg-zinc-300 hover:border-zinc-400 hover:scale-105 focus-visible:scale-105 outline-none focus-visible:ring-2 focus-visible:ring-zinc-500" tabIndex="0" onClick={login}>Unlock</button>
 			</div>
 		</div>
-	</Transition>
 }

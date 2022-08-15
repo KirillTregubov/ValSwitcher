@@ -1,8 +1,12 @@
-import React from 'react';
-import AccountList from '../components/AccountList';
+import React from 'react'
+import AccountList from '../components/AccountList'
 
 export default function Main() {
-	return <div>
-		<AccountList />
-	</div>
+  console.log('rendered Main')
+
+  return (
+    <>
+      <AccountList />
+    </>
+  )
 }
