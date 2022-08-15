@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 // import { createContainer } from "react-tracked";
 import {
-  TransitionGroup,
+  // TransitionGroup,
   SwitchTransition,
   CSSTransition
 } from 'react-transition-group'
@@ -14,9 +14,8 @@ import Main from './pages/Main'
 import Account from './pages/Account'
 import NewAccount from './pages/NewAccount'
 import Navbar from './components/Navbar'
-import RouteWrapper from './components/RouteWrapper'
+// import RouteWrapper from './components/RouteWrapper'
 // import AppDump from './pages/AppDump';
-import './App.css'
 
 export default function App() {
   let location = useLocation()
@@ -41,7 +40,7 @@ export default function App() {
   // }, [location, isAuthenticated]);
 
   return (
-    <div className="react-app h-screen text-white antialiased">
+    <div className="h-screen text-white antialiased">
       <AuthenticationProvider>
         <Navbar />
         <div className="flex h-full flex-col items-center justify-center overflow-hidden pt-20 pb-10">

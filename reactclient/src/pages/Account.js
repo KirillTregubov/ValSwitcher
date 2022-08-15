@@ -1,41 +1,9 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-// import FocusTrap from 'focus-trap-react';
 import { ChevronLeftIcon } from '@heroicons/react/solid'
-// import { Transition } from '../components/Transition';
-// import { navigateWithDelay } from '../util';
-// import { TransitionContext } from '../contexts/Transition';
-
-function useRenderCounter() {
-  const ref = React.useRef()
-  React.useEffect(() => {
-    ref.current.textContent = Number(ref.current.textContent || '0') + 1
-    console.log('rerender counter +1')
-  })
-  return (
-    <span
-      style={{
-        backgroundColor: '#ccc',
-        borderRadius: 4,
-        padding: '2px 4px',
-        fontSize: '0.8rem',
-        margin: '0 6px',
-        display: 'inline-block'
-      }}
-      ref={ref}
-    />
-  )
-}
 
 export default function Account() {
   const accountId = useParams().id
-  // const renderCount = useRenderCounter()
-  // <p>counter: {renderCount}</p>
-
-  // const [state, setState] = useContext(TransitionContext);
-  // setState({ key: 'showing', value: true })
-  // let [showing, setShowing] = useState(true);
-  // let navigate = useNavigate();
 
   function callback(response) {
     console.log('callback')
@@ -69,7 +37,6 @@ export default function Account() {
         <div>Account: {accountId}</div>
         <button onClick={authenticate}>Authenticate</button>
       </div>
-      {/* </div>*/}
     </div>
   )
 }
