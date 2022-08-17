@@ -5,24 +5,26 @@ const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 const Store = require('./store.js')
 const Account = require('./account.js')
+const yaml = require('js-yaml')
+const fs = require('fs')
 
 ;(async () => {
+  /* Variables */
+  let mainWindow
+  let token = null
+
+  /* Defaults */
   const defaultUserData = {
     accounts: []
   }
-
-  let window
-  let token = null
-
   const defaults = {
     token: null,
-    // 800x600 is the default window size
     windowDimensions: { width: 900, height: 500 },
     userData: defaultUserData
   }
 
+  /* Initialize Subsystems */
   const store = new Store({
-    configName: 'user-data',
     defaults: defaults
   })
 
@@ -32,7 +34,10 @@ const Account = require('./account.js')
   // decryptedData += decipher.final("utf8");
   // console.log(decryptedData);
 
-  async function createWindow() {
+  // async function createWindow() {
+  // }
+
+  app.on('ready', async () => {
     const windowDimensions = store.get('windowDimensions')
 
     let width, height
@@ -42,12 +47,12 @@ const Account = require('./account.js')
       ;({ width, height } = windowDimensions)
     }
 
-    window = new BrowserWindow({
+    mainWindow = new BrowserWindow({
+      show: false,
       width: width,
       height: height,
       minWidth: 800,
       minHeight: 500,
-      // resizable: false,
       backgroundColor: '#060A0E',
       webPreferences: {
         contextIsolation: true,
@@ -58,7 +63,7 @@ const Account = require('./account.js')
       // titleBarStyle: "hidden",
       // titleBarOverlay: true,
     })
-    window.removeMenu()
+    mainWindow.removeMenu()
 
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
       callback({
@@ -69,145 +74,80 @@ const Account = require('./account.js')
       })
     })
 
-    await window.loadURL(
+    await mainWindow.loadURL(
       isDev
         ? 'http://localhost:3000'
         : `file://${path.join(__dirname, '../build/index.html')}`
     )
 
     if (isDev) {
-      window.webContents.openDevTools({ mode: 'detach' })
+      mainWindow.webContents.openDevTools({ mode: 'detach' })
     }
 
-    window.on('closed', () => {
-      window = null
-    })
-
-    window.on('resize', () => {
-      // The event doesn't pass us the window size, so we call the `getBounds` method which returns an object with
-      // the height, width, and x and y coordinates.
-      let { width, height } = window.getBounds()
-      // Now that we have them, save them using the `set` method.
-      store.set('userData', { width, height }, 'windowDimensions')
-    })
-
-    // TODO: allow reset resize
-  }
-
-  app.on('ready', createWindow)
-
-  app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') {
-      app.quit()
-    }
-  })
-
-  app.on('activate', async function () {
-    if (window === null) createWindow()
-  })
-
-  ipcMain.on('add-account', (event, arg) => {
-    if (!token) {
-      console.log('Not Authenticated')
-      return
-    }
-
-    console.log('Add account')
-
-    // Encrypt password
-    const iv = crypto.randomBytes(16)
-    const cipher = crypto.createCipheriv('aes-256-cbc', token, iv)
-    let encryptedPassword = cipher.update(arg.password, 'utf-8', 'hex')
-    encryptedPassword += cipher.final('hex')
-    encryptedPassword += iv.toString('hex')
-
-    // Update userData accounts
-    const accounts = store.get('userData', 'accounts')
-    const oldLength = accounts.length
-    accounts.push(new Account(arg.username, encryptedPassword))
-    store.set('userData', accounts, 'accounts')
-    console.log(accounts)
-
-    event.returnValue = oldLength < accounts.length
-  })
-
-  ipcMain.on('get-accounts', (event, arg) => {
-    if (!token) {
-      console.log('Not Authenticated')
-      return null
-    }
-
-    const returnArray = []
-    console.log('Get accounts')
-    const accounts = store.get('userData', 'accounts')
-    if (Array.isArray(accounts)) {
-      accounts.forEach((account) => {
-        const { password, ...returnAccount } = account
-        returnArray.push(returnAccount)
+    mainWindow
+      .on('closed', () => {
+        mainWindow = null
       })
-    }
-
-    /*
-		// Encrypt password
-		const iv = crypto.randomBytes(16);
-		const cipher = crypto.createCipheriv('aes-256-cbc', token, iv);
-		let encryptedPassword = cipher.update('My cool message', "utf-8", "hex");
-		encryptedPassword += cipher.final('hex');
-		encryptedPassword += iv.toString('hex');
-
-		// Update userData accounts
-		
-		if (!accounts) {
-			store.get('userData', 'accounts');
-			accounts = [];
-		}
-		const oldLength = accounts.length;
-		accounts.push(new Account(arg.username, encryptedPassword));
-		store.set('userData', accounts, 'accounts');
-		console.log(accounts);
-
-		*/
-    event.returnValue = returnArray
+      .on('ready-to-show', () => {
+        mainWindow.show()
+        mainWindow.focus()
+      })
+      .on('resize', () => {
+        let { width, height } = mainWindow.getBounds()
+        store.set('userData', { width, height }, 'windowDimensions')
+      })
+    // TODO: allow reset resize
   })
 
-  // const iv = crypto.randomBytes(16);
+  /**
+   * Asynchronous communication between renderer and main process
+   */
 
-  // // create pw
-  // let cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-  // let data = cipher.update('My cool message', "utf-8", "hex");
-  // data += cipher.final("hex");
-  // console.log("Encrypted message: " + data);
-  // store.set('raymanBug', data);
+  /**
+   * Authentication Events
+   *
+   * @event is-authenticated - Check if authentication token exists
+   * @returns {boolean} - Status of authentication
+   *
+   * @event can-authenticate - Checks if user exists
+   * @returns {boolean} - User exists
+   *
+   * @event register - Register user
+   * @param {string} password - Password
+   * @returns {boolean} - Registration success
+   *
+   * @event login - Login user
+   * @param {string} password - Password
+   * @returns {boolean} - Login success
+   *
+   * @event logout - Logout user
+   * @returns {boolean} - Logout success
+   *
+   */
 
-  // // read pw
-  // const dbstr = store.get('raymanBug');
-  // const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(token), iv);
-  // let decryptedData = decipher.update(dbstr, "hex", "utf-8");
-  // decryptedData += decipher.final("utf8");
-  // console.log("Decrypted message: " + decryptedData);
-
-  ipcMain.on('authenticate', async (event, arg) => {
+  ipcMain.on('is-authenticated', async (event) => {
+    // const token = store.get('token')
     event.returnValue = !(token == null)
   })
 
-  ipcMain.on('authenticate-can-register', async (event, arg) => {
-    const storedToken = store.get('token')
-    event.returnValue = storedToken == null
+  ipcMain.on('can-authenticate', async (event) => {
+    const token = store.get('token')
+    event.returnValue = !(token == null)
   })
 
-  ipcMain.on('authenticate-register', async (event, arg) => {
+  ipcMain.on('register', async (event, args) => {
     const storedToken = store.get('token')
-    let inputToken = arg.password
+    let inputToken = args.password
     if (storedToken) {
       if (
         inputToken &&
-        !(arg.newPassword == null) &&
-        inputToken !== arg.newPassword
+        !(args.newPassword == null) &&
+        inputToken !== args.newPassword
       ) {
         const isTokenValid = await bcrypt.compare(inputToken, storedToken)
         if (isTokenValid) {
           console.log('Resetting password')
-          inputToken = arg.newPassword
+          inputToken = args.newPassword
         } else {
           console.log('Registering')
         }
@@ -218,13 +158,11 @@ const Account = require('./account.js')
       }
     }
 
-    // TODO: check if unique
-
     const salt = await bcrypt.genSalt()
     const encryptedData = await bcrypt.hash(inputToken, salt)
     store.set('token', encryptedData)
 
-    if (inputToken === arg.password) {
+    if (inputToken === args.password) {
       store.set('userData', defaultUserData)
     }
 
@@ -236,9 +174,9 @@ const Account = require('./account.js')
     event.returnValue = true
   })
 
-  ipcMain.on('authenticate-login', async (event, arg) => {
+  ipcMain.on('login', async (event, args) => {
     const encryptedData = store.get('token')
-    const inputToken = arg.password
+    const inputToken = args.password
     if (!encryptedData || !inputToken) {
       event.returnValue = false
       return
@@ -251,12 +189,14 @@ const Account = require('./account.js')
         .update(String(inputToken))
         .digest('base64')
         .substring(0, 32)
+      console.log('inputToken ' + inputToken)
+      console.log('token ' + token)
     }
 
     event.returnValue = isTokenValid
   })
 
-  ipcMain.on('authenticate-logout', async (event) => {
+  ipcMain.on('logout', async (event) => {
     const encryptedData = store.get('token')
     if (!encryptedData) {
       event.returnValue = false
@@ -267,14 +207,111 @@ const Account = require('./account.js')
     event.returnValue = true
   })
 
-  ipcMain.on('riot-sync', async (event, arg) => {
+  /**
+   * Account Events
+   *
+   * @event create-account - Create account
+   * @param {string} username - Username
+   * @param {string} agent - Agent
+   * @returns {boolean} - Account creation success
+   *
+   * @event get-account - Get account
+   * @returns {object} - Account data
+   *
+   * @event get-accounts - Get accounts
+   * @returns {array} - Array of accounts
+   *
+   * @event authenticate-account - Authenticate account
+   * @param {string} username - Username
+   * @returns {boolean} - Account authentication success
+   *
+   */
+
+  ipcMain.on('create-account', (event, args) => {
+    if (!token) {
+      console.log('Not Authenticated')
+      event.returnValue = null
+      return
+    }
+
+    const username = args.username
+    if (!username) {
+      console.log('No Username')
+      event.returnValue = null
+      return
+    }
+    const agent = args.agent
+    if (!agent) {
+      console.log('No Agent')
+      event.returnValue = null
+      return
+    }
+
+    const accounts = store.get('userData', 'accounts')
+    const oldLength = accounts.length
+    accounts.push(new Account(username, agent))
+    store.set('userData', accounts, 'accounts')
+
+    event.returnValue = oldLength < accounts.length
+  })
+
+  const getAccount = (username) => {
+    const accounts = store.get('userData', 'accounts')
+    const account = accounts.find((account) => account.username === username)
+
+    if (!account) {
+      return null
+    }
+    return account
+  }
+
+  ipcMain.on('get-account', (event, args) => {
+    if (!token) {
+      console.log('Not Authenticated')
+      event.returnValue = null
+      return
+    }
+
+    const username = args.username
+    if (!username) {
+      console.log('No Username')
+      event.returnValue = null
+      return
+    }
+
+    event.returnValue = getAccount(username)
+  })
+
+  ipcMain.on('get-accounts', (event) => {
+    if (!token) {
+      console.log('Not Authenticated')
+      event.returnValue = null
+      return
+    }
+
+    const accounts = store.get('userData', 'accounts')
+
+    if (!Array.isArray(accounts)) {
+      event.returnValue = null
+      return
+    }
+    event.returnValue = accounts
+  })
+
+  ipcMain.on('authenticate-account', async (event, args) => {
     if (!token) {
       console.log('Not Authenticated')
       return
     }
 
-    // Get Username
-    const username = arg.username
+    const username = args.username
+    if (!username) {
+      console.log('No Username')
+      return
+    }
+
+    const account = getAccount(username)
+    console.log(account)
 
     /*
     // Get Accounts
@@ -294,11 +331,17 @@ const Account = require('./account.js')
     */
 
     const popup = new BrowserWindow({
+      parent: mainWindow,
+      show: false,
       width: 450,
       height: 800,
       resizable: false,
       center: true,
-      alwaysOnTop: true
+      minimizable: false,
+      maximizable: false,
+      fullscreenable: false,
+      // alwaysOnTop: true,
+      title: 'Authenticate with Riot Games'
     })
     popup.removeMenu()
 
@@ -308,20 +351,93 @@ const Account = require('./account.js')
         responseHeaders: {
           ...details.responseHeaders,
           'Content-Security-Policy': [
-            "script-src * 'unsafe-eval' 'unsafe-inline'"
+            "script-src * 'unsafe-eval' 'unsafe-inline' blob:"
           ]
         }
       })
     })
 
-    await popup.loadURL('https://account.riotgames.com')
-
     if (isDev) {
       popup.webContents.openDevTools({ mode: 'detach' })
     }
 
+    popup
+      .on('page-title-updated', (event, title) => {
+        console.log('changed page title to: ' + title)
+        if (title === 'Riot Account Management') {
+          console.log('FINISHED')
+          ses.cookies
+            .get({})
+            .then(async (cookieArray) => {
+              let cookies = cookieArray.filter((item) => {
+                return (
+                  item.domain.includes('auth.riotgames.com') ||
+                  (item.domain.includes('riotgames.com') &&
+                    item.name === 'tdid')
+                )
+              })
+              let yamlStr = yaml.dump({
+                'riot-login': {
+                  persist: {
+                    region: 'NA',
+                    session: {
+                      cookies
+                    }
+                  }
+                }
+              })
+              console.log('yamlStr' + yamlStr)
+
+              await fs.writeFileSync(
+                `${app.getPath('userData')}/${username}.yaml`,
+                yamlStr,
+                'utf8'
+              )
+
+              // TODO: save cookie file to this account
+
+              mainWindow.webContents.send(
+                'authenticate-account',
+                'profile-saved'
+              )
+
+              // File destination.txt will be created or overwritten by default.
+              // fs.copyFile('source.txt', 'destination.txt', (err) => {
+              //   if (err) throw err
+              //   console.log('source.txt was copied to destination.txt')
+              // })
+
+              // await fs.writeFileSync(
+              //   app.getPath('appData') +
+              //     '\\..\\Local\\Riot Games\\Riot Client\\Data\\RiotGamesPrivateSettingsTEST.yaml',
+              //   yamlStr,
+              //   'utf8'
+              // )
+
+              // regions: 'NA', 'EU', 'AP', 'KR', 'LATAM', 'BR'
+            })
+            .catch((err) => {
+              console.error(err)
+            })
+            .finally(() => {
+              popup.close()
+            })
+        }
+        event.preventDefault()
+      })
+      .on('closed', () => {
+        mainWindow.setEnabled(true)
+        mainWindow.focus()
+      })
+      .on('ready-to-show', () => {
+        popup.show()
+      })
+
+    await popup.loadURL('https://account.riotgames.com')
+
+    mainWindow.setEnabled(false)
+
     event.returnValue = 'end'
-    event.reply('riot-sync', 'end')
 
     // const encryptedData = store.get('token');
     // const inputToken = arg.password;
@@ -338,6 +454,7 @@ const Account = require('./account.js')
     // event.returnValue = isTokenValid;
   })
 
+  /* OLD IPC
   ipcMain.on('download-profile', async (event, arg) => {
     if (!token) {
       console.log('Not Authenticated')
@@ -410,4 +527,5 @@ const Account = require('./account.js')
 
     await Account.submitMfa.call(currentAccount, event, arg.mfaCode)
   })
+  */
 })()

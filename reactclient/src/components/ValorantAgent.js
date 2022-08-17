@@ -1,5 +1,4 @@
 import React from 'react'
-// import ReactPlaceholder from "react-placeholder";
 
 // Currently supported agents:
 const agents = [
@@ -24,7 +23,7 @@ const agents = [
   'Yoru'
 ]
 
-function getImage(name, className, onLoad) {
+export default function ValorantAgent({ name, className }) {
   if (agents.includes(name))
     return (
       <img
@@ -32,7 +31,6 @@ function getImage(name, className, onLoad) {
         src={`./images/${name}.png`}
         alt={`Artwork of ${name}`}
         draggable="false"
-        onLoad={onLoad}
       />
     )
   else
@@ -42,28 +40,6 @@ function getImage(name, className, onLoad) {
         src={`./images/Jett.png`}
         alt="Artwork of Jett"
         draggable="false"
-        onLoad={onLoad}
       />
     )
-}
-
-export default function ValorantAgent({ name, className }) {
-  // const [loading, setLoading] = useState(true);
-
-  // function handleImageLoad() {
-  // 	console.log('stopped loading')
-  // 	setLoading(false);
-  // }
-
-  // const image = <img src="http://someImage.png" alt="cool image" onLoad={handleImageLoaded} />;
-
-  return getImage(name, className, null)
-  // return <div>
-  // 	<ReactPlaceholder type="rect" ready={!loading} className="animate-pulse rounded-md ml-4 !mr-0" >
-  // 		<div className="imageHolder" >
-  // 			{image}
-  // 		</div>
-  // 	</ReactPlaceholder>
-  // 	{ !loading && image }
-  // </div>
 }

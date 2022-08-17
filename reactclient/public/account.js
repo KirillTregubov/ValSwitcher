@@ -1,100 +1,119 @@
-const puppeteer = require('puppeteer');
-const yaml = require('js-yaml');
-const fs = require('fs');
+const puppeteer = require('puppeteer')
+const yaml = require('js-yaml')
+const fs = require('fs')
 
-(async () => {
+class Account {
+  constructor(username, agent) {
+    this.username = username
+    this.agent = agent
+  }
 
-	let browser;
-	let page;
+  async saveAuthentication() {}
+}
 
-	async function saveCookies(page, event, accounts) {
-		try {
-			await page.waitForSelector('#riot-id', { visible: true, timeout: 10000 });
-			let cookieArray = (await page._client.send('Network.getAllCookies')).cookies;
-			let cookies = cookieArray.filter(item => item.domain.includes('auth'));
-			// let cookies = (await page._client.send('Network.getAllCookies')).cookies.filter(item => item.domain.includes('auth'));
-			let data = {
-				private: {
-					'riot-login': {
-						persist: {
-							region: 'NA',
-							session: {
-								cookies
-							}
-						}
-					}
-				}
-			};
-			let yamlStr = yaml.dump(data);
-			// TEST is temp
-			await fs.writeFileSync(process.env.APPDATA + "\\..\\Local\\Riot Games\\Riot Client\\Data\\RiotClientPrivateSettingsTEST.yaml", yamlStr, 'utf8');
+module.exports = Account
 
-			await browser.close();
-			// event.reply('reply-worked', accounts[accounts.length - 1]);
-			return cookies;
-		} catch (err) {
-			throw new Error();
-		}
-	}
+// ;(async () => {
+//   let browser
+//   let page
 
-	class Account {
-		constructor(username, password) {
-			this.username = username;
-			this.password = password;
-		}
+//   async function saveCookies(page, event, accounts) {
+//     try {
+//       await page.waitForSelector('#riot-id', { visible: true, timeout: 10000 })
+//       let cookieArray = (await page._client.send('Network.getAllCookies'))
+//         .cookies
+//       let cookies = cookieArray.filter((item) => item.domain.includes('auth'))
+//       // let cookies = (await page._client.send('Network.getAllCookies')).cookies.filter(item => item.domain.includes('auth'));
+//       let data = {
+//         private: {
+//           'riot-login': {
+//             persist: {
+//               region: 'NA',
+//               session: {
+//                 cookies
+//               }
+//             }
+//           }
+//         }
+//       }
+//       let yamlStr = yaml.dump(data)
+//       // TEST is temp
+//       await fs.writeFileSync(
+//         process.env.APPDATA +
+//           '\\..\\Local\\Riot Games\\Riot Client\\Data\\RiotClientPrivateSettingsTEST.yaml',
+//         yamlStr,
+//         'utf8'
+//       )
 
-		static async downloadProfile(event, decryptedData) {
-			browser = await puppeteer.launch({ headless: false });
-			page = await browser.newPage();
-			await page.goto("https://account.riotgames.com/");
+//       await browser.close()
+//       // event.reply('reply-worked', accounts[accounts.length - 1]);
+//       return cookies
+//     } catch (err) {
+//       throw new Error()
+//     }
+//   }
 
-			const username = this.username;
-			await page.waitForSelector("[data-testid='input-username']");
-			await page.waitForTimeout(1000);
-			await page.type("[data-testid='input-username']", username, { delay: 10 });
+//   class Account {
+//     constructor(username, password) {
+//       this.username = username
+//       this.password = password
+//     }
 
-			await page.waitForSelector("[data-testid='input-password']");
-			await page.type("[data-testid='input-password']", decryptedData, { delay: 10 });
+//     static async downloadProfile(event, decryptedData) {
+//       browser = await puppeteer.launch({ headless: false })
+//       page = await browser.newPage()
+//       await page.goto('https://account.riotgames.com/')
 
-			await page.click("[data-testid='btn-signin-submit']");
+//       const username = this.username
+//       await page.waitForSelector("[data-testid='input-username']")
+//       await page.waitForTimeout(1000)
+//       await page.type("[data-testid='input-username']", username, { delay: 10 })
 
-			console.log('Submitted details');
-			Account.saveProfile(event);
-		}
+//       await page.waitForSelector("[data-testid='input-password']")
+//       await page.type("[data-testid='input-password']", decryptedData, {
+//         delay: 10
+//       })
 
-		static async submitMfa(event, mfaCode) {
-			if (mfaCode.length !== 6 || isNaN(mfaCode)) {
-				event.reply('mfa-request', 'Code must be 5 characters long.');
-				return;
-			}
+//       await page.click("[data-testid='btn-signin-submit']")
 
-			await page.waitForSelector("[data-testid='input-mfa']");
-			await page.type("[data-testid='input-mfa']", mfaCode, { delay: 10 });
-			await page.keyboard.press('Enter');
+//       console.log('Submitted details')
+//       Account.saveProfile(event)
+//     }
 
-			// handle retry
+//     static async submitMfa(event, mfaCode) {
+//       if (mfaCode.length !== 6 || isNaN(mfaCode)) {
+//         event.reply('mfa-request', 'Code must be 5 characters long.')
+//         return
+//       }
 
-			console.log('logged in')
-			Account.saveProfile(event);
-		}
+//       await page.waitForSelector("[data-testid='input-mfa']")
+//       await page.type("[data-testid='input-mfa']", mfaCode, { delay: 10 })
+//       await page.keyboard.press('Enter')
 
-		static async saveProfile(event) {
-			try {
-				const cookies = await saveCookies(page, event);
-				console.log(cookies);
-				// TODO: do something with these
-				await browser.close();
-			} catch (err) {
-				await page.waitForSelector('.mfa-prompt', { visible: true });
+//       // handle retry
 
-				let element = await page.$$("[data-testid='panel-subtitle'] > strong");
-				const email = await page.evaluate(element => element.textContent, element[0]);
+//       console.log('logged in')
+//       Account.saveProfile(event)
+//     }
 
-				event.reply('mfa-request', email);
-			}
-		}
-	}
+//     static async saveProfile(event) {
+//       try {
+//         const cookies = await saveCookies(page, event)
+//         console.log(cookies)
+//         await browser.close()
+//       } catch (err) {
+//         await page.waitForSelector('.mfa-prompt', { visible: true })
 
-	module.exports = Account;
+//         let element = await page.$$("[data-testid='panel-subtitle'] > strong")
+//         const email = await page.evaluate(
+//           (element) => element.textContent,
+//           element[0]
+//         )
 
-})();
+//         event.reply('mfa-request', email)
+//       }
+//     }
+//   }
+
+//   module.exports = Account
+// })()

@@ -80,6 +80,6 @@ div::-webkit-scrollbar-thumb:hover {
 .masked-scroll::after {
   @apply absolute left-0 top-0 pointer-events-none w-full;
   content: '';
-  height: 85%;
+  height: calc(100% - 32px);
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 91%, rgba(6, 10, 14, 100%) 94%);
 }

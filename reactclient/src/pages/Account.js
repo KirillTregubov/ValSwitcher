@@ -2,8 +2,18 @@ import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ChevronLeftIcon } from '@heroicons/react/solid'
 
-export default function Account() {
-  const accountId = useParams().id
+import { useAccount } from '../lib/Account'
+
+const Account = () => {
+  const username = useParams().id
+
+  return <AccountPage username={username} />
+}
+
+const AccountPage = React.memo(({ username }) => {
+  console.log('rerender')
+  const account = useAccount(username)
+  console.log('component account', account)
 
   function callback(response) {
     console.log('callback')
@@ -12,12 +22,12 @@ export default function Account() {
 
   function authenticate() {
     console.log('Init download')
-    window.app.listen('riot-sync', callback)
 
-    const response = window.app.emit('riot-sync', {
-      username: accountId
+    window.app.listen('authenticate-account', callback)
+    const response = window.app.emitSync('authenticate-account', {
+      username
     })
-    console.log(response)
+    console.log('auth resp: ' + response.toString() + ' or ' + response)
   }
 
   return (
@@ -34,9 +44,12 @@ export default function Account() {
         {/* <div className="absolute top-0 right-0 flex h-10 items-center p-2 px-3">
 <button className="outline-none focus-visible:ring-2 ring-zinc-600 rounded-sm" onClick={close}><XIcon className="h-5" /></button>
         </div> */}
-        <div>Account: {accountId}</div>
+        {/* TODO: show agent and finish authenticate */}
+        <div>Account: {username}</div>
         <button onClick={authenticate}>Authenticate</button>
       </div>
     </div>
   )
-}
+})
+
+export default Account
