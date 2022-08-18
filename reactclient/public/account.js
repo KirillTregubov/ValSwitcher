@@ -1,4 +1,3 @@
-// const puppeteer = require('puppeteer')
 const yaml = require('js-yaml')
 const fs = require('fs')
 
