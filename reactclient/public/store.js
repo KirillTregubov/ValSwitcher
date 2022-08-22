@@ -4,7 +4,8 @@ const { readFileSync, writeFileSync } = require('fs')
 
 function parseDataFile(filePath, defaults) {
   try {
-    return JSON.parse(readFileSync(filePath))
+    const fileContent = JSON.parse(readFileSync(filePath))
+    return { ...defaults, ...fileContent }
   } catch (error) {
     writeFileSync(filePath, JSON.stringify(defaults))
     return defaults

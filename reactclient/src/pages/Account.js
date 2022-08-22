@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { ChevronLeftIcon } from '@heroicons/react/solid'
 
 import { useAccount } from '../lib/Account'
+import ValorantAgent from '../components/ValorantAgent'
 
 const Account = () => {
   const username = useParams().id
@@ -46,6 +47,10 @@ const AccountPage = React.memo(({ username }) => {
         </div> */}
         {/* TODO: show agent and finish authenticate */}
         <div>Account: {username}</div>
+        <ValorantAgent
+          className="w-20 object-contain object-right transition-transform will-change-transform group-hover:scale-[115%] group-focus-visible:scale-[115%]"
+          name={'Neon'}
+        />
         <button onClick={authenticate}>Authenticate</button>
       </div>
     </div>

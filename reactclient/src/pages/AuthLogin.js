@@ -58,9 +58,9 @@ export default function AuthLogin() {
   }
 
   return (
-    <div className="w-full max-w-md py-6 px-12 text-base">
+    <div className="mx-auto max-w-md py-6 px-12 text-base">
       <h2 className="mb-2 text-lg font-medium">Welcome Back!</h2>
-      <p className="text-base">Please unlock your account data to continue.</p>
+      <p>Please unlock your account data to continue.</p>
       <Input
         className="my-2"
         value={password}

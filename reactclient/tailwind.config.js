@@ -51,6 +51,9 @@ module.exports = {
         sans: 'Inter var',
         valorant: 'Valorant'
       },
+      maxWidth: {
+        window: '55rem'
+      },
       minHeight: {
         '1/2': '50vh'
       },

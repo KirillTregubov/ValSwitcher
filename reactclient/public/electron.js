@@ -23,7 +23,7 @@ const {
   }
   const defaults = {
     token: null,
-    windowDimensions: { width: 900, height: 500 },
+    windowDimensions: { width: 900, height: 500 }, // Electron window is 16px slimmer and 39px shorter
     userData: defaultUserData
   }
 

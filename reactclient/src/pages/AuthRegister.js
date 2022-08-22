@@ -1,9 +1,23 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ExclamationIcon } from '@heroicons/react/solid'
+import { BadgeCheckIcon, ExclamationIcon } from '@heroicons/react/solid'
 
 import { useAuthentication } from '../lib/Authentication'
 import Input from '../components/Input'
+
+const BadgeEmptyIcon = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M6.267 3.455a3.066 3.066 0 0 0 1.745-.723 3.066 3.066 0 0 1 3.976 0 3.066 3.066 0 0 0 1.745.723 3.066 3.066 0 0 1 2.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 0 1 0 3.976 3.066 3.066 0 0 0-.723 1.745 3.066 3.066 0 0 1-2.812 2.812 3.066 3.066 0 0 0-1.745.723 3.066 3.066 0 0 1-3.976 0 3.066 3.066 0 0 0-1.745-.723 3.066 3.066 0 0 1-2.812-2.812 3.066 3.066 0 0 0-.723-1.745 3.066 3.066 0 0 1 0-3.976 3.066 3.066 0 0 0 .723-1.745 3.066 3.066 0 0 1 2.812-2.812Z"
+    />
+  </svg>
+)
 
 export default function AuthRegister() {
   const [password, setPassword] = useState('')
@@ -64,20 +78,38 @@ export default function AuthRegister() {
   }
 
   return (
-    <div className="w-full max-w-md py-6 px-12 text-zinc-300">
-      <h2 className="mb-2 text-lg font-medium text-zinc-200">
-        Welcome to <span className="text-valred">Valorant</span> Switcher!
-      </h2>
-      <p className="mb-2">
-        Valorant Switcher stores and automatically switches between accounts in
-        the Riot Client, allowing you to switch between Valorant accounts with
-        ease.
-      </p>
-      <p>
-        For your security, please set a master password to secure your account
-        data with. Do NOT re-use an account password.
-      </p>
-      <div className="my-3 space-y-2">
+    <div className="mx-auto flex max-w-window space-x-6 py-6 px-12 text-base text-zinc-300">
+      <div className="">
+        <h1 className="mb-2 text-lg font-medium text-zinc-200">
+          Welcome to{' '}
+          <span className="font-bold">
+            <span className="text-valred">Valorant</span> Switcher
+          </span>
+        </h1>
+        <p className="">
+          Thanks for installing! With Valorant Switcher, you can...
+        </p>
+        <ul className="mb-3">
+          <li className="mt-2 flex">
+            <BadgeCheckIcon className="box-content h-5 w-5 flex-shrink-0 p-0.5 text-valred" />
+            <h2 className="ml-1 text-valred-50">
+              View all your Riot accounts in one place
+            </h2>
+          </li>
+          <li className="mt-2 flex">
+            <BadgeCheckIcon className="box-content h-5 w-5 flex-shrink-0 p-0.5 text-valred" />
+            <h2 className="ml-1 text-valred-50">
+              Switch between them with ease
+            </h2>
+          </li>
+        </ul>
+        <p>
+          For your security, please set a master password to secure your account
+          data with.
+        </p>
+        <p className="mt-1">Do NOT re-use an account password.</p>
+      </div>
+      <div className="my-auto w-80 flex-shrink-0 space-y-2">
         <Input
           value={password}
           onChange={handleInput}
@@ -106,20 +138,20 @@ export default function AuthRegister() {
             {repeatWarning}
           </p>
         )}
-      </div>
-      <div className="mt-1 flex gap-2">
-        <button
-          className="w-full rounded-md border border-zinc-300 bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900 outline-none transition-all hover:scale-105 hover:border-zinc-400 hover:bg-zinc-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-zinc-500"
-          onClick={register}
-        >
-          Set Password
-        </button>
-        <button
-          className="w-full rounded-md border border-zinc-300 bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900 outline-none transition-all hover:scale-105 hover:border-zinc-400 hover:bg-zinc-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-zinc-500"
-          onClick={() => navigate('/home')}
-        >
-          Go to Home
-        </button>
+        <div className="mt-2 flex gap-2">
+          <button
+            className="w-full rounded-md border border-zinc-300 bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900 outline-none transition-all hover:scale-105 hover:border-zinc-400 hover:bg-zinc-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-zinc-500"
+            onClick={register}
+          >
+            Set Password
+          </button>
+          <button
+            className="w-full rounded-md border border-zinc-300 bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900 outline-none transition-all hover:scale-105 hover:border-zinc-400 hover:bg-zinc-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-zinc-500"
+            onClick={() => navigate('/home')}
+          >
+            Go to Home
+          </button>
+        </div>
       </div>
     </div>
   )
