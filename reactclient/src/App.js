@@ -1,11 +1,6 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
-// import { createContainer } from "react-tracked";
-import {
-  // TransitionGroup,
-  SwitchTransition,
-  CSSTransition
-} from 'react-transition-group'
+import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import { AuthenticationProvider } from './lib/Authentication'
 import AuthLogin from './pages/AuthLogin'
 import AuthRegister from './pages/AuthRegister'
@@ -14,29 +9,10 @@ import Home from './pages/Home'
 import Account from './pages/Account'
 import NewAccount from './pages/NewAccount'
 import Navbar from './components/Navbar'
-// import AppDump from './pages/AppDump';
 
 export default function App() {
-  let location = useLocation()
-  // const [isAuthenticated, setIsAuthenticated] = useState(false)
-
-  // const initialState = {
-  // 	isAuthenticated: false
-  // };
-
-  // const useValue = () => useReducer(
-  // 	(state, newValue) => ({ ...state, ...newValue }),
-  // 	initialState
-  // );
-
-  // const { Provider, useTracked } = createContainer(useValue);
-
-  // useEffect(() => {
-  // 	if (!isAuthenticated) {
-  // 		const response = window.app.emitSync('authenticate');
-  // 		setIsAuthenticated(response);
-  // 	}
-  // }, [location, isAuthenticated]);
+  const nodeRef = useRef(null)
+  const location = useLocation()
 
   return (
     <div className="h-screen text-white antialiased">
@@ -45,19 +21,22 @@ export default function App() {
         <div className="flex h-full flex-col items-center justify-center overflow-hidden pt-20 pb-10">
           <SwitchTransition>
             <CSSTransition
+              nodeRef={nodeRef}
               key={location.pathname}
               classNames="page"
               timeout={300}
             >
-              <Routes location={location}>
-                <Route path="register" element={<AuthRegister />} />
-                <Route path="login" element={<AuthLogin />} />
-                <Route path="/" element={<Authenticated />}>
-                  <Route path="home" element={<Home />} />
-                  <Route path="account/:id" element={<Account />} />
-                  <Route path="new-account" element={<NewAccount />} />
-                </Route>
-              </Routes>
+              <div className="w-full" ref={nodeRef}>
+                <Routes location={location}>
+                  <Route path="register" element={<AuthRegister />} />
+                  <Route path="login" element={<AuthLogin />} />
+                  <Route path="/" element={<Authenticated />}>
+                    <Route path="home" element={<Home />} />
+                    <Route path="account/:id" element={<Account />} />
+                    <Route path="new-account" element={<NewAccount />} />
+                  </Route>
+                </Routes>
+              </div>
             </CSSTransition>
           </SwitchTransition>
         </div>
@@ -67,32 +46,7 @@ export default function App() {
             service marks, and/or registered trademarks of Riot Games, Inc.
           </p>
         </div>
-        {/* <button className="inline-block bg-valbeige text-valblack font-bold p-2 rounded">Test Cookies</button>
-				<button className="inline-block bg-valbeige text-valblack font-bold p-2 rounded">Test Cookies</button> */}
       </AuthenticationProvider>
     </div>
   )
 }
-
-// function useAuthenticationState() {
-// 	const authenticationState = React.useContext(AuthenticationContext)
-// 	if (typeof authenticationState === 'undefined') {
-// 		throw new Error('useCountState must be used within a CountProvider')
-// 	}
-// 	return authenticationState
-// }
-
-// function useAuthenticationUpdater() {
-// 	const setAuthentication = React.useContext(AuthenticationUpdaterContext)
-// 	if (typeof setAuthentication === 'undefined') {
-// 		throw new Error('useCountUpdater must be used within a CountProvider')
-// 	}
-// 	const authenticationStatus = React.useCallback((status) => setAuthentication(status), [setAuthentication])
-// 	return authenticationStatus
-// }
-
-// function useAuthentication() {
-// 	return [useAuthenticationState(), useAuthenticationUpdater()]
-// }
-
-// export { App, useAuthentication };

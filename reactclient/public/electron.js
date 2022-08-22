@@ -7,6 +7,10 @@ const Store = require('./store.js')
 const Account = require('./account.js')
 const yaml = require('js-yaml')
 const fs = require('fs')
+const {
+  default: installExtension,
+  REACT_DEVELOPER_TOOLS
+} = require('electron-devtools-installer')
 
 ;(async () => {
   /* Variables */
@@ -36,6 +40,15 @@ const fs = require('fs')
 
   // async function createWindow() {
   // }
+
+  /* TODO: Move code here */
+  app.whenReady().then(() => {
+    if (isDev) {
+      installExtension(REACT_DEVELOPER_TOOLS)
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err))
+    }
+  })
 
   app.on('ready', async () => {
     const windowDimensions = store.get('windowDimensions')
