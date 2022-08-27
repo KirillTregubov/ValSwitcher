@@ -70,6 +70,7 @@ export default function AuthLogin() {
         type="password"
         autoComplete="password"
         minLength="1"
+        title="Master Password"
       />
       {warning && (
         <p className="mb-3 flex animate-pulse items-center text-amber-500">

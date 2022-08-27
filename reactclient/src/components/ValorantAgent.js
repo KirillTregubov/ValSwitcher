@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import MyTransition from './MyTransitions'
+import React, { useEffect, useRef, useState } from 'react'
+import { CSSTransition } from 'react-transition-group'
 
 // Currently supported agents:
 const agents = [
@@ -26,6 +26,7 @@ const agents = [
 
 export default function ValorantAgent({ name, className }) {
   const [loaded, setLoaded] = useState(false)
+  const nodeRef = useRef(null)
 
   useEffect(() => {
     return () => {
@@ -35,22 +36,29 @@ export default function ValorantAgent({ name, className }) {
 
   if (agents.includes(name))
     return (
-      <MyTransition in={loaded} timeout={0.3}>
-        <img
-          className={`w-full ${className}`}
-          src={`./images/${name}.png`}
-          alt={`Artwork of ${name}`}
-          onLoad={() => setLoaded(true)}
-        />
-        <button
-          onClick={() => {
-            setLoaded(false)
-            console.log('to')
-          }}
-        >
-          Press
-        </button>
-      </MyTransition>
+      <CSSTransition
+        appear={true}
+        in={loaded}
+        classNames="fade"
+        timeout={300}
+        nodeRef={nodeRef}
+      >
+        <div ref={nodeRef}>
+          <img
+            className={`w-full ${className}`}
+            src={`./images/${name}.png`}
+            alt={`Artwork of ${name}`}
+            onLoad={() => setLoaded(true)}
+          />
+          {/* <button
+            onClick={() => {
+              setLoaded(!loaded)
+            }}
+          >
+            Press
+          </button> */}
+        </div>
+      </CSSTransition>
     )
   else
     return (

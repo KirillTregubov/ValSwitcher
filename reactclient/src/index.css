@@ -38,6 +38,7 @@ html {
   opacity: 1;
   transform: scale(1);
   transition: opacity 200ms, transform 200ms;
+  will-change: transform;
 }
 
 .page-exit {
@@ -49,6 +50,30 @@ html {
   opacity: 0;
   transform: scale(0.95);
   transition: opacity 200ms, transform 200ms;
+  will-change: transform;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 150ms;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 150ms;
+}
+
+.fade-exit-done {
+  opacity: 0;
+  transition: opacity 150ms;
 }
 
 div::-webkit-scrollbar {

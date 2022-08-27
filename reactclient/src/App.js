@@ -2,8 +2,8 @@ import React, { useRef } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import { AuthenticationProvider } from './lib/Authentication'
-import AuthLogin from './pages/AuthLogin'
-import AuthRegister from './pages/AuthRegister'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import Authenticated from './pages/Authenticated'
 import Home from './pages/Home'
 import Account from './pages/Account'
@@ -28,8 +28,8 @@ export default function App() {
             >
               <div className="w-full" ref={nodeRef}>
                 <Routes location={location}>
-                  <Route path="register" element={<AuthRegister />} />
-                  <Route path="login" element={<AuthLogin />} />
+                  <Route path="register" element={<Register />} />
+                  <Route path="login" element={<Login />} />
                   <Route path="/" element={<Authenticated />}>
                     <Route path="home" element={<Home />} />
                     <Route path="account/:id" element={<Account />} />

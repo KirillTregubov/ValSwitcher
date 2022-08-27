@@ -78,14 +78,16 @@ const {
     })
     mainWindow.removeMenu()
 
-    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-      callback({
-        responseHeaders: {
-          ...details.responseHeaders,
-          'Content-Security-Policy': ["script-src 'self'"]
-        }
-      })
-    })
+    mainWindow.webContents.session.webRequest.onHeadersReceived(
+      (details, callback) => {
+        callback({
+          responseHeaders: {
+            ...details.responseHeaders,
+            'Content-Security-Policy': ["script-src 'self'"]
+          }
+        })
+      }
+    )
 
     await mainWindow.loadURL(
       isDev
