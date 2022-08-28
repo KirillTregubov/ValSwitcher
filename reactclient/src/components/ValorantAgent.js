@@ -24,15 +24,15 @@ const agents = [
   'Yoru'
 ]
 
-export default function ValorantAgent({ name, className }) {
+const ValorantAgent = React.memo(({ name, className }) => {
   const [loaded, setLoaded] = useState(false)
   const nodeRef = useRef(null)
 
-  useEffect(() => {
-    return () => {
-      setLoaded(false)
-    }
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     setLoaded(false)
+  //   }
+  // }, [])
 
   if (agents.includes(name))
     return (
@@ -69,4 +69,6 @@ export default function ValorantAgent({ name, className }) {
         draggable="false"
       />
     )
-}
+})
+
+export default ValorantAgent

@@ -4,6 +4,7 @@ import { ExclamationIcon } from '@heroicons/react/solid'
 
 import Input from '../components/Input'
 import { useAuthentication } from '../lib/Authentication'
+import Button from '../components/Button'
 
 export default function AuthLogin() {
   const [password, setPassword] = useState('')
@@ -58,7 +59,7 @@ export default function AuthLogin() {
   }
 
   return (
-    <div className="mx-auto max-w-md py-6 px-12 text-base">
+    <div className="mx-auto max-w-md select-none py-6 px-12 text-base">
       <h2 className="mb-2 text-lg font-medium">Welcome Back!</h2>
       <p>Please unlock your account data to continue.</p>
       <Input
@@ -79,20 +80,26 @@ export default function AuthLogin() {
         </p>
       )}
       <div className="mt-1 flex gap-2">
-        <button
-          className="w-full rounded-md border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm font-medium text-zinc-200 outline-none transition-all hover:scale-105 hover:border-zinc-900 hover:bg-zinc-700 hover:text-zinc-50 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-zinc-500"
+        {/* <button
+          className="w-full rounded-md border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm font-medium text-neutral-200 outline-none transition-all hover:scale-105 hover:border-neutral-900 hover:bg-neutral-700 hover:text-neutral-50 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-neutral-500"
           tabIndex="1"
           onClick={resetData}
         >
           Reset Data
-        </button>
-        <button
-          className="w-full rounded-md border border-zinc-300 bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900 outline-none transition-all hover:scale-105 hover:border-zinc-400 hover:bg-zinc-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-zinc-500"
+        </button> */}
+        <Button className="w-full" tabIndex="1" onClick={resetData}>
+          Reset Data
+        </Button>
+        <Button primary className="w-full" tabIndex="0" onClick={login}>
+          Unlock
+        </Button>
+        {/* <button
+          className="w-full rounded-md border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-900 outline-none transition-all hover:scale-105 hover:border-neutral-400 hover:bg-neutral-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-neutral-500"
           tabIndex="0"
           onClick={login}
         >
           Unlock
-        </button>
+        </button> */}
       </div>
     </div>
   )

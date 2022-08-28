@@ -24,7 +24,6 @@ export default function AuthRegister() {
   const [warning, setWarning] = useState(null)
   const [repeatPassword, setRepeatPassword] = useState('')
   const [repeatWarning, setRepeatWarning] = useState(null)
-  const [isValid, setIsValid] = useState(false)
   const [, setAuthenticated] = useAuthentication()
   let navigate = useNavigate()
 
@@ -42,23 +41,15 @@ export default function AuthRegister() {
     setRepeatPassword(event.target.value)
 
     if (password.length > 0 && event.target.value === password) {
-      setIsValid(true)
       setRepeatWarning(null)
-    } else {
-      setIsValid(false)
     }
   }
 
   const register = (event) => {
-    if (password.length > 0 && repeatPassword === password) {
-      setIsValid(true)
-    }
-
-    if (!isValid) {
-      if (password.length === 0) {
-        setWarning('Password cannot be empty.')
-        return
-      }
+    if (password.length === 0) {
+      setWarning('Password cannot be empty.')
+      return
+    } else if (password !== repeatPassword) {
       setRepeatWarning('Passwords must match.')
       return
     }
@@ -71,6 +62,7 @@ export default function AuthRegister() {
       setAuthenticated(true)
     } else {
       // TODO: ERROR
+      // Handle 'Already registered' and other errors
       alert('We ran into an error...')
       setWarning(null)
       setRepeatWarning('An error occurred.')
@@ -120,10 +112,10 @@ export default function AuthRegister() {
           />
           {warning && (
             <p
-              className={`-mt-1 mb-3 flex animate-pulse items-center text-amber-500`}
+              className={`!mb-1 flex animate-pulse items-center text-sm text-amber-500`}
               key={warning}
             >
-              <ExclamationIcon className="mr-1 h-6 w-6" />
+              <ExclamationIcon className="mr-1 h-5 w-5" />
               {warning}
             </p>
           )}
@@ -137,8 +129,8 @@ export default function AuthRegister() {
             title="Repeat Master Password"
           />
           {repeatWarning && (
-            <p className="-mt-1 mb-3 flex animate-pulse items-center text-amber-500">
-              <ExclamationIcon className="mr-1 h-6 w-6" />
+            <p className="!mb-1 flex animate-pulse items-center text-sm text-amber-500">
+              <ExclamationIcon className="mr-1 h-5 w-5" />
               {repeatWarning}
             </p>
           )}

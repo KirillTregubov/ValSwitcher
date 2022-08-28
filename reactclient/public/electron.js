@@ -7,10 +7,6 @@ const Store = require('./store.js')
 const Account = require('./account.js')
 const yaml = require('js-yaml')
 const fs = require('fs')
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS
-} = require('electron-devtools-installer')
 
 ;(async () => {
   /* Variables */
@@ -42,13 +38,18 @@ const {
   // }
 
   /* TODO: Move code here */
-  app.whenReady().then(() => {
-    if (isDev) {
-      installExtension(REACT_DEVELOPER_TOOLS)
-        .then((name) => console.log(`Added Extension:  ${name}`))
-        .catch((err) => console.log('An error occurred: ', err))
-    }
-  })
+  // app.whenReady().then(() => {
+  //   if (isDev) {
+  //     const {
+  //       default: installExtension,
+  //       REACT_DEVELOPER_TOOLS
+  //     } = require('electron-devtools-installer')
+
+  //     installExtension(REACT_DEVELOPER_TOOLS)
+  //       .then((name) => console.log(`Added Extension:  ${name}`))
+  //       .catch((err) => console.log('An error occurred: ', err))
+  //   }
+  // })
 
   app.on('ready', async () => {
     const windowDimensions = store.get('windowDimensions')
@@ -89,11 +90,20 @@ const {
       }
     )
 
-    await mainWindow.loadURL(
-      isDev
-        ? 'http://localhost:3000'
-        : `file://${path.join(__dirname, '../build/index.html')}`
-    )
+    await mainWindow
+      .loadURL(
+        isDev
+          ? 'http://localhost:3000'
+          : `file://${path.join(__dirname, '../build/index.html')}`
+      )
+      .then(() => {
+        mainWindow.show()
+        if (!mainWindow.isFocused()) {
+          console.log('not focused')
+          mainWindow.focus()
+        }
+        // mainWindow.focus()
+      })
 
     if (isDev) {
       mainWindow.webContents.openDevTools({ mode: 'detach' })
@@ -103,13 +113,14 @@ const {
       .on('closed', () => {
         mainWindow = null
       })
-      .on('ready-to-show', () => {
-        mainWindow.show()
-        mainWindow.focus()
-      })
+      /* TODO: Open Issue - isn't triggered unless devtools is opened */
+      // .on('ready-to-show', () => {
+      //   mainWindow.show()
+      //   mainWindow.focus()
+      // })
       .on('resize', () => {
         let { width, height } = mainWindow.getBounds()
-        store.set('userData', { width, height }, 'windowDimensions')
+        store.set('windowDimensions', { width, height })
       })
     // TODO: allow reset resize
   })
