@@ -5,16 +5,18 @@ const Button = ({
   isLink,
   iconLeft = false,
   iconRight = false,
-  primary = false,
+  text = false,
   children,
   ...props
 }) => {
-  let classNames = `flex items-center justify-center rounded-md border py-2 px-3 text-sm font-medium outline-none transition-all duration-200 hover:ring-1 hover:!ring-valred hover:!border-valred focus-visible:ring-1 active:will-change-transform active:scale-95 active:ring-1 active:border-valred active:ring-valred`
+  let classNames = `flex items-center justify-center rounded-md py-2 px-3 text-sm font-medium outline-none transition-all duration-200 hover:ring-1 hover:!ring-valred hover:!border-valred focus-visible:ring-1 active:will-change-transform active:scale-95 active:ring-1 active:border-valred active:ring-valred border-neutral-800 text-neutral-50 hover:text-valred-100 focus-visible:text-valred-100 focus-visible:border-valred-800 focus-visible:ring-valred-800`
 
-  if (primary) {
-    classNames += ` border-neutral-300 bg-neutral-100 text-neutral-900 hover:!bg-valred-100 focus-visible:bg-valred-50 focus-visible:text-valred-900 focus-visible:border-valred-700 focus-visible:ring-valred-700 active:!bg-valred-50`
+  // classNames += ` border-neutral-300 bg-neutral-100 text-neutral-900 hover:!bg-valred-100 focus-visible:bg-valred-50 focus-visible:text-valred-900 focus-visible:border-valred-700 focus-visible:ring-valred-700 active:!bg-valred-50`
+
+  if (text) {
+    classNames += ` border-0`
   } else {
-    classNames += ` border-neutral-800 bg-neutral-900 text-neutral-50 hover:!bg-valred-800 hover:text-valred-100  focus-visible:bg-valred-900 focus-visible:text-valred-100 focus-visible:border-valred-800 focus-visible:ring-valred-800 active:!bg-valred-900 `
+    classNames += ` border bg-neutral-900 hover:!bg-valred-800 focus-visible:bg-valred-900 active:!bg-valred-900`
   }
 
   if (className && className.length > 0) {

@@ -74,33 +74,33 @@ export default function AuthLogin() {
         title="Master Password"
       />
       {warning && (
-        <p className="mb-3 flex animate-pulse items-center text-amber-500">
+        <p className="mb-2 flex animate-pulse items-center text-amber-500">
           <ExclamationIcon className="mr-1 h-6 w-6" />
           {warning}
         </p>
       )}
-      <div className="mt-1 flex gap-2">
-        {/* <button
+      {/* <div className="mt-1 flex gap-2"> */}
+      {/* <button
           className="w-full rounded-md border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm font-medium text-neutral-200 outline-none transition-all hover:scale-105 hover:border-neutral-900 hover:bg-neutral-700 hover:text-neutral-50 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-neutral-500"
           tabIndex="1"
           onClick={resetData}
         >
           Reset Data
         </button> */}
-        <Button className="w-full" tabIndex="1" onClick={resetData}>
-          Reset Data
-        </Button>
-        <Button primary className="w-full" tabIndex="0" onClick={login}>
-          Unlock
-        </Button>
-        {/* <button
+      <Button className="mb-2 w-full" onClick={login}>
+        Unlock
+      </Button>
+      <Button text className="w-full" onClick={resetData}>
+        Reset Data
+      </Button>
+      {/* <button
           className="w-full rounded-md border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-900 outline-none transition-all hover:scale-105 hover:border-neutral-400 hover:bg-neutral-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-neutral-500"
           tabIndex="0"
           onClick={login}
         >
           Unlock
         </button> */}
-      </div>
+      {/* </div> */}
     </div>
   )
 }

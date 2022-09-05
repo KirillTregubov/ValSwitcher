@@ -35,7 +35,7 @@ const AccountPage = React.memo(({ username }) => {
     <div className="mx-auto w-full max-w-xl">
       {/* <div className="absolute z-10 inset-0 flex justify-center items-center"> */}
       <Link
-        className="mb-2 inline-flex items-center rounded-full pr-2 font-medium text-zinc-400 outline-none ring-zinc-600 focus-visible:ring-2"
+        className="mb-2 inline-flex items-center rounded-full font-medium text-neutral-400 outline-none ring-neutral-600 hover:text-neutral-200 focus-visible:ring-2 active:scale-95 active:will-change-transform"
         to={'/home'}
       >
         <ChevronLeftIcon className="h-5 w-5" />

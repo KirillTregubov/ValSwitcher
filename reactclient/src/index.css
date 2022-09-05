@@ -79,6 +79,10 @@ html {
   opacity: 0;
 }
 
+::selection {
+  @apply bg-valred-800;
+}
+
 div::-webkit-scrollbar {
   width: 8px;
   height: 8px;

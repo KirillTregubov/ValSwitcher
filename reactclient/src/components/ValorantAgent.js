@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 
 // Currently supported agents:
@@ -28,11 +28,11 @@ const ValorantAgent = React.memo(({ name, className }) => {
   const [loaded, setLoaded] = useState(false)
   const nodeRef = useRef(null)
 
-  // useEffect(() => {
-  //   return () => {
-  //     setLoaded(false)
-  //   }
-  // }, [])
+  useLayoutEffect(() => {
+    return () => {
+      setLoaded(false)
+    }
+  }, [])
 
   if (agents.includes(name))
     return (

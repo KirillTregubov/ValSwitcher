@@ -51,7 +51,7 @@ const fs = require('fs')
   //   }
   // })
 
-  app.on('ready', async () => {
+  app.whenReady().then(async () => {
     const windowDimensions = store.get('windowDimensions')
 
     let width, height
@@ -98,11 +98,6 @@ const fs = require('fs')
       )
       .then(() => {
         mainWindow.show()
-        if (!mainWindow.isFocused()) {
-          console.log('not focused')
-          mainWindow.focus()
-        }
-        // mainWindow.focus()
       })
 
     if (isDev) {
@@ -113,7 +108,7 @@ const fs = require('fs')
       .on('closed', () => {
         mainWindow = null
       })
-      /* TODO: Open Issue - isn't triggered unless devtools is opened */
+      /* TODO: Open Issue - isn't triggered unless devtools is open */
       // .on('ready-to-show', () => {
       //   mainWindow.show()
       //   mainWindow.focus()
@@ -140,6 +135,7 @@ const fs = require('fs')
    *
    * @event register - Register user
    * @param {string} password - Password
+   * @param {string} newPassword - New Password (optional, used to change password)
    * @returns {boolean} - Registration success
    *
    * @event login - Login user
@@ -148,7 +144,6 @@ const fs = require('fs')
    *
    * @event logout - Logout user
    * @returns {boolean} - Logout success
-   *
    */
 
   ipcMain.on('is-authenticated', async (event) => {
@@ -326,35 +321,22 @@ const fs = require('fs')
 
   ipcMain.on('authenticate-account', async (event, args) => {
     if (!token) {
-      console.log('Not Authenticated')
+      event.returnValue = { success: false, message: 'Not Authenticated' }
       return
     }
 
     const username = args.username
     if (!username) {
-      console.log('No Username')
+      event.returnValue = { success: false, message: 'No Username' }
       return
     }
 
     const account = getAccount(username)
-    console.log(account)
-
-    /*
-    // Get Accounts
-    const accounts = store.get('userData', 'accounts')
-    if (!Array.isArray(accounts)) {
-      store.set('userData', [], 'accounts')
+    if (!account) {
+      event.returnValue = { success: false, message: 'Account not found' }
+      return
     }
-
-    // Get Current Account
-    const currentAccount = accounts.find(
-      (account) => account.username === username
-    )
-    if (!currentAccount) {
-      accounts.push({ username })
-      store.set('userData', 'accounts', accounts)
-    }
-    */
+    console.log('get account ', account) // TODO: remove
 
     const popup = new BrowserWindow({
       parent: mainWindow,
@@ -389,20 +371,21 @@ const fs = require('fs')
 
     popup
       .on('page-title-updated', (event, title) => {
-        console.log('changed page title to: ' + title)
+        console.log('changed page title to: ', title) // TODO: remove
         if (title === 'Riot Account Management') {
-          console.log('FINISHED')
+          console.log('FINISHED') // TODO: remove
           ses.cookies
             .get({})
             .then(async (cookieArray) => {
-              let cookies = cookieArray.filter((item) => {
+              const cookies = cookieArray.filter((item) => {
                 return (
                   item.domain.includes('auth.riotgames.com') ||
                   (item.domain.includes('riotgames.com') &&
                     item.name === 'tdid')
                 )
               })
-              let yamlStr = yaml.dump({
+
+              const userData = {
                 'riot-login': {
                   persist: {
                     region: 'NA',
@@ -411,8 +394,11 @@ const fs = require('fs')
                     }
                   }
                 }
-              })
-              console.log('yamlStr' + yamlStr)
+              }
+
+              let yamlStr = yaml.dump(userData)
+              console.log('user data ', userData) // TODO: remove
+              console.log('yamlStr ', yamlStr) // TODO: remove
 
               await fs.writeFileSync(
                 `${app.getPath('userData')}/${username}.yaml`,
