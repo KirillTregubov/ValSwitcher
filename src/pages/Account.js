@@ -1,9 +1,10 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { ChevronLeftIcon } from '@heroicons/react/solid'
 
 import { useAccount } from '../lib/Account'
 import ValorantAgent from '../components/ValorantAgent'
+import Button from '../components/Button'
 
 const Account = () => {
   const username = useParams().id
@@ -28,20 +29,24 @@ const AccountPage = React.memo(({ username }) => {
     const response = window.app.emitSync('authenticate-account', {
       username
     })
-    console.log('auth resp: ' + response.toString() + ' or ' + response)
+    console.log('auth resp: ' + JSON.stringify(response) + ' or ' + response)
   }
 
   return (
     <div className="mx-auto w-full max-w-xl">
       {/* <div className="absolute z-10 inset-0 flex justify-center items-center"> */}
-      <Link
+      {/* <Link
         className="mb-2 inline-flex items-center rounded-full font-medium text-neutral-400 outline-none ring-neutral-600 hover:text-neutral-200 focus-visible:ring-2 active:scale-95 active:will-change-transform"
         to={'/home'}
       >
         <ChevronLeftIcon className="h-5 w-5" />
         <span>All Accounts</span>
-      </Link>
-      <div className="relative flex flex-col rounded-3xl border-valneutral-900 bg-valneutral-700 px-5 py-6 shadow-md">
+      </Link> */}
+      <Button text isLink to={'/home'} className="group inline-flex">
+        <ChevronLeftIcon className="h-5 w-5 transition-transform ease-linear group-focus-within:-translate-x-0.5 group-hover:-translate-x-0.5 " />
+        <span>All Accounts</span>
+      </Button>
+      <div className="relative flex flex-col rounded-3xl border-neutral-800 bg-neutral-900 px-5 py-6 shadow-md">
         {/* <div className="absolute top-0 right-0 flex h-10 items-center p-2 px-3">
 <button className="outline-none focus-visible:ring-2 ring-zinc-600 rounded-sm" onClick={close}><XIcon className="h-5" /></button>
         </div> */}

@@ -87,11 +87,11 @@ export default function AuthLogin() {
         >
           Reset Data
         </button> */}
-      <Button className="mb-2 w-full" onClick={login}>
+      <Button className="mb-1.5 w-full" onClick={login}>
         Unlock
       </Button>
-      <Button text className="w-full" onClick={resetData}>
-        Reset Data
+      <Button text onClick={resetData}>
+        Reset your data
       </Button>
       {/* <button
           className="w-full rounded-md border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-900 outline-none transition-all hover:scale-105 hover:border-neutral-400 hover:bg-neutral-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-neutral-500"

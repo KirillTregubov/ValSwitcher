@@ -273,7 +273,12 @@ const fs = require('fs')
     accounts.push(new Account(username, agent))
     store.set('userData', accounts, 'accounts')
 
-    event.returnValue = oldLength < accounts.length
+    if (oldLength < accounts.length) {
+      event.sender.send('accounts-updated', accounts)
+      event.returnValue = true
+      return
+    }
+    event.returnValue = false
   })
 
   const getAccount = (username) => {
@@ -305,21 +310,25 @@ const fs = require('fs')
 
   ipcMain.on('get-accounts', (event) => {
     if (!token) {
-      console.log('Not Authenticated')
-      event.returnValue = null
+      event.returnValue = { success: false, message: 'Not Authenticated' }
       return
     }
 
     const accounts = store.get('userData', 'accounts')
 
     if (!Array.isArray(accounts)) {
-      event.returnValue = null
+      event.returnValue = {
+        success: false,
+        message: 'Error accessing stored accounts'
+      }
       return
     }
-    event.returnValue = accounts
+    event.returnValue = { success: true, data: accounts }
   })
 
   ipcMain.on('authenticate-account', async (event, args) => {
+    console.log('open')
+
     if (!token) {
       event.returnValue = { success: false, message: 'Not Authenticated' }
       return

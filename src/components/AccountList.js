@@ -1,5 +1,6 @@
 import React from 'react'
 import ScrollContainer from 'react-indiana-drag-scroll'
+import { useAccounts } from '../lib/Account'
 
 import AccountCard from './AccountCard'
 
@@ -21,6 +22,10 @@ const fakeAccounts = [
 ]
 
 export default function AccountList() {
+  const accounts = useAccounts()
+
+  console.log(accounts)
+
   return (
     <div className="masked-scroll relative h-full w-full overflow-auto overflow-y-visible py-6 px-12">
       <ScrollContainer

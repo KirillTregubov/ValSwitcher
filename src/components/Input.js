@@ -13,7 +13,7 @@ export default function Input({
 }) {
   return (
     <input
-      className={`w-full rounded-md border border-neutral-700 bg-neutral-800 p-2 text-neutral-200 placeholder-neutral-500 shadow-sm outline-none transition-all duration-200 focus-visible:border-valred-800 focus-visible:bg-neutral-900 focus-visible:ring-1 focus-visible:ring-valred-800 ${className}`}
+      className={`w-full rounded-md border border-neutral-700 bg-neutral-800 p-2 text-neutral-200 placeholder-neutral-500 shadow-sm outline-none transition-all duration-200 hover:border-valred-800 hover:ring-1 hover:ring-valred-800 focus-visible:border-valred-800 focus-visible:bg-neutral-900 focus-visible:ring-1 focus-visible:ring-valred-800 ${className}`}
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
