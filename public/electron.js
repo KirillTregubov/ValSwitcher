@@ -236,6 +236,10 @@ const fs = require('fs')
    * @param {string} agent - Agent
    * @returns {boolean} - Account creation success
    *
+   * @event username-taken - Check if username is taken
+   * @param {string} username - Username
+   * @returns {boolean} - Username is taken
+   *
    * @event get-account - Get account
    * @returns {object} - Account data
    *
@@ -246,25 +250,25 @@ const fs = require('fs')
    * @param {string} username - Username
    * @returns {boolean} - Account authentication success
    *
+   * @event delete-account - Delete account
+   * @param {string} username - Username
+   * @returns {boolean} - Account deletion success
    */
 
   ipcMain.on('create-account', (event, args) => {
     if (!token) {
-      console.log('Not Authenticated')
-      event.returnValue = null
+      event.returnValue = { success: false, message: 'Not Authenticated' }
       return
     }
 
     const username = args.username
     if (!username) {
-      console.log('No Username')
-      event.returnValue = null
+      event.returnValue = { success: false, message: 'No Username' }
       return
     }
     const agent = args.agent
     if (!agent) {
-      console.log('No Agent')
-      event.returnValue = null
+      event.returnValue = { success: false, message: 'No Agent' }
       return
     }
 
@@ -272,13 +276,36 @@ const fs = require('fs')
     const oldLength = accounts.length
     accounts.push(new Account(username, agent))
     store.set('userData', accounts, 'accounts')
-
-    if (oldLength < accounts.length) {
-      event.sender.send('accounts-updated', accounts)
-      event.returnValue = true
+    if (oldLength === accounts.length) {
+      event.returnValue = {
+        success: false,
+        message: 'Failed to Update Accounts'
+      }
       return
     }
-    event.returnValue = false
+    event.sender.send('accounts-updated', accounts)
+    event.returnValue = { success: true, data: accounts }
+  })
+
+  ipcMain.on('username-taken', (event, args) => {
+    if (!token) {
+      event.returnValue = { success: false, message: 'Not Authenticated' }
+      return
+    }
+
+    const username = args.username
+    if (!username) {
+      event.returnValue = { success: false, message: 'No Username' }
+      return
+    }
+
+    const accounts = store.get('userData', 'accounts')
+    const account = accounts.find((account) => account.username === username)
+    if (!!account) {
+      event.returnValue = { success: true, data: true }
+      return
+    }
+    event.returnValue = { success: true, data: false }
   })
 
   const getAccount = (username) => {
@@ -293,19 +320,22 @@ const fs = require('fs')
 
   ipcMain.on('get-account', (event, args) => {
     if (!token) {
-      console.log('Not Authenticated')
-      event.returnValue = null
+      event.returnValue = { success: false, message: 'Not Authenticated' }
       return
     }
 
     const username = args.username
     if (!username) {
-      console.log('No Username')
-      event.returnValue = null
+      event.returnValue = { success: false, message: 'No Username' }
       return
     }
 
-    event.returnValue = getAccount(username)
+    const account = getAccount(username)
+    if (!account) {
+      event.returnValue = { success: false, message: 'No Account' }
+      return
+    }
+    event.returnValue = { success: true, data: account }
   })
 
   ipcMain.on('get-accounts', (event) => {
@@ -473,6 +503,33 @@ const fs = require('fs')
     // }
 
     // event.returnValue = isTokenValid;
+  })
+
+  ipcMain.on('delete-account', (event, args) => {
+    if (!token) {
+      event.returnValue = { success: false, message: 'Not Authenticated' }
+      return
+    }
+
+    const username = args.username
+    if (!username) {
+      event.returnValue = { success: false, message: 'No Username' }
+      return
+    }
+
+    const accounts = store.get('userData', 'accounts')
+    const oldLength = accounts.length
+    const newAccounts = accounts.filter(
+      (account) => account.username !== username
+    )
+    store.set('userData', newAccounts, 'accounts')
+    const updatedAccounts = store.get('userData', 'accounts')
+
+    if (oldLength === updatedAccounts.length) {
+      event.returnValue = { success: false, message: 'Account not found' }
+      return
+    }
+    event.returnValue = { success: true }
   })
 
   /* OLD IPC

@@ -102,7 +102,7 @@ module.exports = {
     // 			}
     // 		},
     // 		'.scrollbar:hover': {
-    // 			'scrollbar-color': 'scrollbar-thumb-zinc-600 var(--scrollbar-track)',
+    // 			'scrollbar-color': 'scrollbar-thumb-neutral-600 var(--scrollbar-track)',
     // 		},
     // 		'.scrollbar-thin': {
     // 			'--scrollbar-width': '8px',

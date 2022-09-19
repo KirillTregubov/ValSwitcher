@@ -30,12 +30,15 @@ export function useAccount(accountId) {
       username: accountId
     })
     console.log('res', response)
+    if (response?.success) {
+      setAccountData(response.data)
+    }
 
     // ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
     // return () => {
     //   ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
     // };
-  })
+  }, [accountId])
 
   return accountData
 }

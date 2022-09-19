@@ -40,7 +40,7 @@ export default function App() {
             </CSSTransition>
           </SwitchTransition>
         </div>
-        <div className="fixed bottom-0 left-0 flex h-10 w-full items-center justify-center text-xs text-zinc-500">
+        <div className="fixed bottom-0 left-0 flex h-10 w-full items-center justify-center text-xs text-neutral-500">
           <p>
             Riot Games, VALORANT, and any associated logos are trademarks,
             service marks, and/or registered trademarks of Riot Games, Inc.

@@ -59,6 +59,7 @@ html {
 
 .fade-enter {
   opacity: 0;
+  transition: opacity 150ms;
 }
 
 .fade-enter-active {
@@ -68,6 +69,7 @@ html {
 
 .fade-exit {
   opacity: 1;
+  transition: opacity 150ms;
 }
 
 .fade-exit-active {
@@ -83,25 +85,33 @@ html {
   @apply bg-valred-800;
 }
 
-div::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-div::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   @apply rounded-full;
 }
 
-div::-webkit-scrollbar-track {
-  @apply rounded bg-zinc-900;
+::-webkit-scrollbar-track {
+  @apply rounded bg-neutral-900;
 }
 
-div::-webkit-scrollbar-thumb {
-  @apply bg-zinc-700 transition duration-700;
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-700 transition duration-700;
 }
 
-div::-webkit-scrollbar-thumb:hover {
-  @apply bg-zinc-600;
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-neutral-600;
+}
+
+.comboscroll ::-webkit-scrollbar-thumb {
+  @apply bg-neutral-500;
+}
+
+.comboscroll ::-webkit-scrollbar-track {
+  @apply bg-transparent;
 }
 
 .hide-scroll ::-webkit-scrollbar {

@@ -45,7 +45,7 @@ const ValorantAgent = React.memo(({ name, className }) => {
       >
         <div ref={nodeRef}>
           <img
-            className={`w-full ${className}`}
+            className={`w-full select-none ${className}`}
             src={`./images/${name}.png`}
             alt={`Artwork of ${name}`}
             onLoad={() => setLoaded(true)}

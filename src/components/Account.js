@@ -40,7 +40,7 @@ export default function Account({ username, className, ...props }) {
     return <div>Error</div>
   }
   return (
-    <div className={`rounded-md bg-zinc-600 p-4 ${className}`} {...props}>
+    <div className={`rounded-md bg-neutral-600 p-4 ${className}`} {...props}>
       <h1>Username: {username}</h1>
       <button onClick={initDownload}>Download Profile</button>
 

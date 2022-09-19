@@ -7,7 +7,7 @@ class Account {
     this.agent = agent
   }
 
-  async saveAuthentication() {}
+  // async saveAuthentication() {}
 }
 
 module.exports = Account

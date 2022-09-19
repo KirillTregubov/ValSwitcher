@@ -70,9 +70,9 @@ export default function AuthRegister() {
   }
 
   return (
-    <div className="mx-auto flex max-w-window space-x-6 py-6 px-12 text-base text-zinc-300">
+    <div className="mx-auto flex max-w-window space-x-6 py-6 px-12 text-base text-neutral-300">
       <div>
-        <h1 className="mb-2 text-xl font-medium text-zinc-200">
+        <h1 className="mb-2 text-xl font-medium text-neutral-200">
           Welcome to{' '}
           <span className="font-bold">
             <span className="text-valred">Valorant</span> Switcher
@@ -99,7 +99,7 @@ export default function AuthRegister() {
         </p>
         <p className="mt-1">Do NOT re-use an account password.</p>
       </div>
-      <div className="my-auto w-80 flex-shrink-0 space-y-3">
+      <div className="my-auto w-80 flex-shrink-0 select-none space-y-3">
         <div className="space-y-2">
           <Input
             value={password}
@@ -137,13 +137,13 @@ export default function AuthRegister() {
         </div>
         <div className="flex gap-2">
           <button
-            className="w-full rounded-md border border-zinc-300 bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900 outline-none transition-all hover:scale-105 hover:border-zinc-400 hover:bg-zinc-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-zinc-500"
+            className="w-full rounded-md border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-900 outline-none transition-all hover:scale-105 hover:border-neutral-400 hover:bg-neutral-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-neutral-500"
             onClick={register}
           >
             Set Password
           </button>
           <button
-            className="w-full rounded-md border border-zinc-300 bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900 outline-none transition-all hover:scale-105 hover:border-zinc-400 hover:bg-zinc-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-zinc-500"
+            className="w-full rounded-md border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-900 outline-none transition-all hover:scale-105 hover:border-neutral-400 hover:bg-neutral-300 focus-visible:scale-105 focus-visible:ring-2 focus-visible:ring-neutral-500"
             onClick={() => navigate('/home')}
           >
             Go to Home
