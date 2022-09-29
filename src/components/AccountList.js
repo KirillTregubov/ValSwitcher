@@ -6,23 +6,6 @@ import AccountCard from './AccountCard'
 import Button from './Button'
 import ValorantAgent from './ValorantAgent'
 
-// const fakeAccounts = [
-//   { username: 'thespectra23', alias: 'main', agent: 'Chamber' },
-//   { username: 'thespectra99', alias: 'silver smurf', agent: 'Omen' },
-//   { username: 'anotherspectra', alias: 'gold smurf', agent: 'Fade' },
-//   { username: 'joeysaccount', alias: "friend's account", agent: 'Chamber' },
-//   {
-//     username: 'joeysrealandaccount',
-//     alias: 'actualpogchamp',
-//     agent: 'Neon'
-//   },
-//   {
-//     username: 'joeysaccount',
-//     alias: "friend's cool awesome account",
-//     agent: 'Reyna'
-//   }
-// ]
-
 export default function AccountList() {
   const accounts = useAccounts()
 

@@ -7,8 +7,8 @@ import {
   ExclamationIcon,
   PlusCircleIcon
 } from '@heroicons/react/solid'
-import agents from '../lib/Agents'
 
+import agents from '../lib/Agents'
 import Button from '../components/Button'
 import ValorantAgent from '../components/ValorantAgent'
 import Input from '../components/Input'
@@ -131,6 +131,7 @@ export default function NewAccount() {
                       onFocus={(event) => setQuery(event.target.value)}
                       placeholder="Select an Agent"
                       title="Select an Agent"
+                      spellCheck="false"
                     />
                   </Combobox.Button>
                 </div>
@@ -141,7 +142,7 @@ export default function NewAccount() {
                   leaveTo="opacity-0"
                   afterLeave={() => setQuery('')}
                 >
-                  <Combobox.Options className="absolute z-10 mt-1 max-h-28 w-full overflow-auto rounded-md bg-neutral-800 text-base text-neutral-200 shadow-lg ring-0 focus:outline-none sm:text-sm">
+                  <Combobox.Options className="absolute z-10 mt-1 max-h-36 w-full overflow-auto rounded-md bg-neutral-800 text-base text-neutral-200 shadow-lg ring-0 focus:outline-none sm:text-sm">
                     {filteredAgents.length === 0 && query !== '' ? (
                       <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                         Not an agent name.

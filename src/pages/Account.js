@@ -66,7 +66,7 @@ const AccountPage = React.memo(({ username }) => {
         <div>Account: {username}</div>
         <ValorantAgent
           className="w-20 object-contain object-right transition-transform will-change-transform group-hover:scale-[115%] group-focus-visible:scale-[115%]"
-          name={'Neon'}
+          name={account?.agent || 'Jett'}
         />
         <button onClick={authenticate}>Authenticate</button>
         <div>

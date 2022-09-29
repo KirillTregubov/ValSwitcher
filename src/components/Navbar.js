@@ -34,8 +34,8 @@ const Navbar = () => {
             event.currentTarget.blur()
           }}
         >
-          <PlusSmIcon className="mr-0.5 h-4" />
-          New Account
+          <PlusSmIcon className="mr-1 h-4" />
+          <span>New Account</span>
         </NavbarButton>
       </div>
       <div className="flex items-center justify-center space-x-1.5">
@@ -46,7 +46,8 @@ const Navbar = () => {
       </div>
       <div className="flex flex-1 justify-end">
         <NavbarButton authenticated={authenticated} iconRight onClick={logout}>
-          Logout <LogoutIcon className="ml-1 h-4 w-4" />
+          <span>Logout</span>
+          <LogoutIcon className="ml-1.5 h-4 w-4" />
         </NavbarButton>
       </div>
     </div>

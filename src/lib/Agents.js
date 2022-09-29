@@ -1,3 +1,6 @@
+/*
+ * Last updated to patch 5.06
+ */
 const agents = [
   'Astra',
   'Breach',

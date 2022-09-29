@@ -9,6 +9,7 @@ import Home from './pages/Home'
 import Account from './pages/Account'
 import NewAccount from './pages/NewAccount'
 import Navbar from './components/Navbar'
+import PreloadAgents from './components/PreloadAgents'
 
 export default function App() {
   const nodeRef = useRef(null)
@@ -47,6 +48,8 @@ export default function App() {
           </p>
         </div>
       </AuthenticationProvider>
+
+      <PreloadAgents />
     </div>
   )
 }

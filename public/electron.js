@@ -272,9 +272,11 @@ const fs = require('fs')
       return
     }
 
+    const alias = args.alias
+
     const accounts = store.get('userData', 'accounts')
     const oldLength = accounts.length
-    accounts.push(new Account(username, agent))
+    accounts.push(new Account(username, agent, alias))
     store.set('userData', accounts, 'accounts')
     if (oldLength === accounts.length) {
       event.returnValue = {

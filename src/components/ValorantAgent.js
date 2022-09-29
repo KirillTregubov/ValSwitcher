@@ -1,28 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 
-// Currently supported agents:
-const agents = [
-  'Astra',
-  'Breach',
-  'Brimstone',
-  'Chamber',
-  'Cypher',
-  'Fade',
-  'Jett',
-  'KAYO',
-  'Killjoy',
-  'Neon',
-  'Omen',
-  'Phoenix',
-  'Raze',
-  'Reyna',
-  'Sage',
-  'Skye',
-  'Sova',
-  'Viper',
-  'Yoru'
-]
+import agents from '../lib/Agents'
 
 const ValorantAgent = React.memo(({ name, className }) => {
   const [loaded, setLoaded] = useState(false)
@@ -50,13 +29,6 @@ const ValorantAgent = React.memo(({ name, className }) => {
             alt={`Artwork of ${name}`}
             onLoad={() => setLoaded(true)}
           />
-          {/* <button
-            onClick={() => {
-              setLoaded(!loaded)
-            }}
-          >
-            Press
-          </button> */}
         </div>
       </CSSTransition>
     )

@@ -16,7 +16,7 @@ const Button = ({
   if (text) {
     classNames += ` my-1 -ml-1 px-1 text-neutral-500 hover:text-valred-100 focus-visible:text-valred-100 focus-visible:underline decoration-valred-800`
   } else {
-    classNames += ` justify-center border py-2 px-3 text-sm border-neutral-800 bg-neutral-900 text-neutral-50 hover:text-valred-100 focus-visible:text-valred-100 hover:!bg-valred-800 focus-visible:bg-valred-900 active:!bg-valred-900 focus-visible:border-valred-800 hover:!border-valred active:border-valred hover:ring-1 hover:!ring-valred focus-visible:ring-1 focus-visible:ring-valred-800 active:ring-1 active:ring-valred`
+    classNames += ` justify-center border py-2 px-3 text-sm border-neutral-800 bg-neutral-900 !text-neutral-50 hover:text-valred-100 focus-visible:text-valred-100 hover:!bg-valred-800 focus-visible:bg-valred-900 active:!bg-valred-900 focus-visible:border-valred-800 hover:!border-valred active:border-valred hover:ring-1 hover:!ring-valred focus-visible:ring-1 focus-visible:ring-valred-800 active:ring-1 active:ring-valred`
   }
 
   if (className && className.length > 0) {

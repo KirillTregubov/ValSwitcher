@@ -1,10 +1,13 @@
-const yaml = require('js-yaml')
-const fs = require('fs')
+// const yaml = require('js-yaml')
+// const fs = require('fs')
 
 class Account {
-  constructor(username, agent) {
+  constructor(username, agent, alias) {
     this.username = username
     this.agent = agent
+    if (!!alias) {
+      this.alias = alias
+    }
   }
 
   // async saveAuthentication() {}
