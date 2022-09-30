@@ -271,7 +271,6 @@ const fs = require('fs')
       event.returnValue = { success: false, message: 'No Agent' }
       return
     }
-
     const alias = args.alias
 
     const accounts = store.get('userData', 'accounts')

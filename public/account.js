@@ -8,6 +8,7 @@ class Account {
     if (!!alias) {
       this.alias = alias
     }
+    this.authenticated = false
   }
 
   // async saveAuthentication() {}

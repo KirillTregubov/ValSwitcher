@@ -2,7 +2,7 @@ import agents from '../lib/Agents'
 
 const PreloadAgents = () => {
   return (
-    <div className="hidden">
+    <div className="hidden" aria-hidden="true">
       {agents.map((agent) => (
         <img
           key={agent}
