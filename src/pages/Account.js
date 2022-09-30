@@ -2,8 +2,6 @@ import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ChevronLeftIcon, TrashIcon } from '@heroicons/react/solid'
 
-import { FaBeer } from 'react-icons/fa'
-
 import { useAccount } from '../lib/Account'
 import ValorantAgent from '../components/ValorantAgent'
 import Button from '../components/Button'
@@ -56,8 +54,6 @@ const AccountPage = React.memo(({ username }) => {
         <ChevronLeftIcon className="h-5 w-5" />
         <span>All Accounts</span>
       </Link> */}
-      <FaBeer className="text-red-500" />
-
       <Button text isLink to={'/home'} className="group inline-flex">
         <ChevronLeftIcon className="h-5 w-5 transition-transform ease-linear group-focus-within:-translate-x-0.5 group-hover:-translate-x-0.5 " />
         <span>Home</span>

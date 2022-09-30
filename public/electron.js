@@ -487,6 +487,8 @@ const fs = require('fs')
 
     await popup.loadURL('https://account.riotgames.com')
 
+    // await popup.webContents.replace(text);
+
     mainWindow.setEnabled(false)
 
     event.returnValue = 'end'
