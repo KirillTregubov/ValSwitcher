@@ -1,6 +1,10 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeftIcon, TrashIcon } from '@heroicons/react/solid'
+import {
+  CheckCircleIcon,
+  ChevronLeftIcon,
+  TrashIcon
+} from '@heroicons/react/solid'
 
 import { useAccount } from '../lib/Account'
 import ValorantAgent from '../components/ValorantAgent'
@@ -20,7 +24,9 @@ const AccountPage = React.memo(({ username }) => {
 
   function callback(response) {
     console.log('callback')
-    console.log(response)
+    if (response?.success) {
+      console.log('handle success')
+    }
   }
 
   function authenticate() {
@@ -31,6 +37,12 @@ const AccountPage = React.memo(({ username }) => {
       username
     })
     console.log('auth resp: ' + JSON.stringify(response) + ' or ' + response)
+
+    window.app.listen('used-session', () => {
+      alert(
+        "Failed to authenticate account. Please select 'Stay signed in' when signing into your account."
+      )
+    })
   }
 
   function deleteAccount() {
@@ -68,6 +80,14 @@ const AccountPage = React.memo(({ username }) => {
           className="w-20 object-contain object-right transition-transform will-change-transform group-hover:scale-[115%] group-focus-visible:scale-[115%]"
           name={account?.agent || 'Jett'}
         />
+        <div className="flex items-center gap-1 py-2 text-sm text-neutral-400">
+          Remember to select
+          <span className="inline-flex items-center rounded bg-neutral-800 px-1 py-0.5 text-white">
+            <CheckCircleIcon className="mr-0.5 inline-block h-4 w-4 text-valred" />
+            <span>Stay signed in</span>
+          </span>
+          when signing into your account.
+        </div>
         <button onClick={authenticate}>Authenticate</button>
         <div>
           <Button text onClick={deleteAccount} className="group">

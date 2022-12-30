@@ -4,7 +4,8 @@
 
 @font-face {
   font-family: 'Valorant';
-  src: local('Valorant'), url(./assets/fonts/ValorantFont.ttf) format('truetype');
+  src: local('Valorant'),
+    url(./assets/fonts/ValorantFont.ttf) format('truetype');
 }
 
 html {
@@ -29,32 +30,36 @@ html {
   transition: opacity 150ms ease-out;
 } */
 
+.page {
+  will-change: transform, opacity;
+}
+
 .page-enter {
-  will-change: transform;
   opacity: 0;
   transform: scale(1.05);
 }
 
 .page-enter-active {
-  will-change: transform;
   opacity: 1;
   transform: scale(1);
-  transition: opacity 200ms, transform 200ms;
+  transition: opacity 200ms, transform 150ms;
   will-change: transform;
 }
 
 .page-exit {
-  will-change: transform;
   opacity: 1;
   transform: scale(1);
 }
 
 .page-exit-active {
-  will-change: transform;
   opacity: 0;
   transform: scale(0.95);
-  transition: opacity 200ms, transform 200ms;
+  transition: opacity 200ms, transform 150ms;
   will-change: transform;
+}
+
+.fade {
+  will-change: opacity;
 }
 
 .fade-enter {
@@ -120,8 +125,12 @@ html {
 }
 
 .masked-scroll::after {
-  @apply absolute left-0 top-0 pointer-events-none w-full;
+  @apply pointer-events-none absolute left-0 top-0 w-full;
   content: '';
   height: calc(100% - 32px);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 91%, rgba(6, 10, 14, 100%) 94%);
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 91%,
+    rgba(6, 10, 14, 100%) 94%
+  );
 }

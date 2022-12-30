@@ -388,12 +388,12 @@ const fs = require('fs')
       minimizable: false,
       maximizable: false,
       fullscreenable: false,
-      // alwaysOnTop: true,
       title: 'Authenticate with Riot Games'
     })
     popup.removeMenu()
 
     const ses = popup.webContents.session
+    ses.clearStorageData({ storages: ['cookies'] })
     ses.webRequest.onHeadersReceived((details, callback) => {
       callback({
         responseHeaders: {
@@ -425,6 +425,14 @@ const fs = require('fs')
                 )
               })
 
+              console.log('cookies ', cookies) // TODO: remove
+              console.log(cookies.every((cookie) => !cookie.session))
+              if (!cookies.every((cookie) => !cookie.session)) {
+                console.log('wrong session')
+                mainWindow.webContents.send('used-session')
+                return
+              }
+
               const userData = {
                 'riot-login': {
                   persist: {
@@ -448,10 +456,9 @@ const fs = require('fs')
 
               // TODO: save cookie file to this account
 
-              mainWindow.webContents.send(
-                'authenticate-account',
-                'profile-saved'
-              )
+              mainWindow.webContents.send('authenticate-account', {
+                success: true
+              })
 
               // File destination.txt will be created or overwritten by default.
               // fs.copyFile('source.txt', 'destination.txt', (err) => {
@@ -472,7 +479,9 @@ const fs = require('fs')
               console.error(err)
             })
             .finally(() => {
-              popup.close()
+              console.log('closed')
+              popup.destroy()
+              mainWindow.setEnabled(true)
             })
         }
         event.preventDefault()
@@ -486,10 +495,6 @@ const fs = require('fs')
       })
 
     await popup.loadURL('https://account.riotgames.com')
-
-    // await popup.webContents.replace(text);
-
-    mainWindow.setEnabled(false)
 
     event.returnValue = 'end'
 
